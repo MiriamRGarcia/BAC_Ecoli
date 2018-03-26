@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<head> <title>Comments on the inputs</title></head>
+<body>
+<style type="text/css">
+.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
+.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
+.tftable tr {background-color:#d4e3e5;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+.tftable tr:hover {background-color:#ffffff;}
+</style>
+<h1>Inputs</h1><table class="tftable" border="1">
+<tr>  <th>Field</th>  <th> Description</th> </tr>
+<tr><th colspan = "2">inputs</th></tr>
+<tr>	<td>inputs.input_file	<td>AMIGO input file name	</tr>
+<tr>	<td>inputs.randstate	<td>seed for random number gen.	</tr>
+<tr>	<td>inputs.save_results	<td>save AMIGO results	</tr>
+<tr><th colspan = "2">inputs.DOsol</th></tr>
+<tr>	<td>inputs.DOsol.DOcost	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.DOcost_type	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.N_DOcost	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.death_penalty	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.min_stepduration	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_const_eq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_const_ineq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_control_const	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_linear	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_pulses	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.n_steps	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.t_con	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.tf_guess	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.tf_type	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.u_guess	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.u_interp	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.u_max	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.u_min	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.DOsol.y0	<td>#RED #MISSING	</tr>
+<tr><th colspan = "2">inputs.OEDsol</th></tr>
+<tr>	<td>inputs.OEDsol.OEDcost_type	<td>OED criteria	</tr>
+<tr>	<td>inputs.OEDsol.cost_file	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.OEDsol.n_obs_od	<td>#RED #MISSING	</tr>
+<tr><th colspan = "2">inputs.PEsol</th></tr>
+<tr>	<td>inputs.PEsol.CramerRao	<td>cramer-rao computation	</tr>
+<tr>	<td>inputs.PEsol.GRankmethod	<td>Latin hypercube sampling	</tr>
+<tr>	<td>inputs.PEsol.PEcostJac_file	<td>user defined jacobian of the cost function #PE	</tr>
+<tr>	<td>inputs.PEsol.PEcostJac_fun	<td>user defined jacobian of the cost function #PE	</tr>
+<tr>	<td>inputs.PEsol.PEcostJac_type	<td>type of the Jacobian of the cost function #PE	</tr>
+<tr>	<td>inputs.PEsol.PEcost_file	<td>user provide cost function file #PE	</tr>
+<tr>	<td>inputs.PEsol.PEcost_fun	<td>user provide cost function file #PE	</tr>
+<tr>	<td>inputs.PEsol.PEcost_type	<td>cost function type #PE	</tr>
+<tr>	<td>inputs.PEsol.cost_file	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.PEsol.global_theta_guess	<td>global estimated par. Init guess #PE	</tr>
+<tr>	<td>inputs.PEsol.global_theta_max	<td>upper bounds for global est. Parameters #PE	</tr>
+<tr>	<td>inputs.PEsol.global_theta_min	<td>lower bounds for global est. Parameters #PE	</tr>
+<tr>	<td>inputs.PEsol.global_theta_y0_guess	<td>global estimated initial value Init guess #PE	</tr>
+<tr>	<td>inputs.PEsol.global_theta_y0_max	<td>upper bounds for global est. Initial value #PE	</tr>
+<tr>	<td>inputs.PEsol.global_theta_y0_min	<td>lower bounds for global est. Initial value #PE	</tr>
+<tr>	<td>inputs.PEsol.id_global_theta	<td>estimated parameter name #PE	</tr>
+<tr>	<td>inputs.PEsol.id_global_theta_y0	<td>estimated initial condition name #PE	</tr>
+<tr>	<td>inputs.PEsol.id_local_theta	<td>estimated local parameters name #PE	</tr>
+<tr>	<td>inputs.PEsol.id_local_theta_y0	<td>estimated local initial condition name #PE	</tr>
+<tr>	<td>inputs.PEsol.index_global_theta	<td>estimated global parameter indices	</tr>
+<tr>	<td>inputs.PEsol.index_global_theta_y0	<td>indices of est. Init. Value	</tr>
+<tr>	<td>inputs.PEsol.index_local_theta	<td>indices of est.local parameters	</tr>
+<tr>	<td>inputs.PEsol.index_local_theta_y0	<td>indices of est. Local initial values	</tr>
+<tr>	<td>inputs.PEsol.llk_type	<td>Noise model for Log-Likelihood #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_guess	<td>local est. Param. Guess #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_max	<td>local est par. Upper bound #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_min	<td>local est par. lower bound #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_y0_guess	<td>local est. Init. value. Guess #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_y0_max	<td>local est  Init. Value  Upper bound #PE	</tr>
+<tr>	<td>inputs.PEsol.local_theta_y0_min	<td>local est  Init. value lower bound #PE	</tr>
+<tr>	<td>inputs.PEsol.lsq_type	<td>Least-squares cost type #PE	</tr>
+<tr>	<td>inputs.PEsol.n_const_ineq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.PEsol.n_global_theta	<td>number of global est. Param. #PE	</tr>
+<tr>	<td>inputs.PEsol.n_global_theta_y0	<td>number of global est. Init cond #PE	</tr>
+<tr>	<td>inputs.PEsol.n_local_theta	<td>number of local est. Param. #PE	</tr>
+<tr>	<td>inputs.PEsol.n_local_theta_y0	<td>number of local est. Initi cond #PE	</tr>
+<tr>	<td>inputs.PEsol.n_theta	<td>number of tot est params	</tr>
+<tr>	<td>inputs.PEsol.n_theta_y0	<td>number of tot est. IC	</tr>
+<tr>	<td>inputs.PEsol.ntotal_local_theta	<td># of local estimated parameters	</tr>
+<tr>	<td>inputs.PEsol.ntotal_local_theta_y0	<td># of local estimated initial conditions	</tr>
+<tr>	<td>inputs.PEsol.ntotal_theta	<td>total # of estimated parameters	</tr>
+<tr>	<td>inputs.PEsol.vtheta_guess	<td>initial value for decision variables	</tr>
+<tr>	<td>inputs.PEsol.vtheta_max	<td>upper bound on decision variables	</tr>
+<tr>	<td>inputs.PEsol.vtheta_min	<td>lower bounds on decision variables	</tr>
+<tr><th colspan = "2">inputs.exps</th></tr>
+<tr>	<td>inputs.exps.NLObs	<td>are there nonlinear observables? #PE	</tr>
+<tr>	<td>inputs.exps.Q	<td>weighting matrix in LS PE #PE	</tr>
+<tr>	<td>inputs.exps.const_ineq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.count_failed_ivp	<td># of failed IVP calculations	</tr>
+<tr>	<td>inputs.exps.count_failed_sens	<td># of failed sensitivity calculations	</tr>
+<tr>	<td>inputs.exps.count_success_ivp	<td># of successful IVP calculations	</tr>
+<tr>	<td>inputs.exps.count_success_sens	<td># of successful sensitivity calculations	</tr>
+<tr>	<td>inputs.exps.data_type	<td>pseudo exp. Data gen.	</tr>
+<tr>	<td>inputs.exps.error_data	<td>std. Dev. of the error	</tr>
+<tr>	<td>inputs.exps.exp_data	<td>exp. Data	</tr>
+<tr>	<td>inputs.exps.exp_y0	<td>initial condition	</tr>
+<tr>	<td>inputs.exps.exp_y0_type	<td>fixed or designed IC. (OED)#OED	</tr>
+<tr>	<td>inputs.exps.fixed_exps	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.id_y0	<td>which IC to be designed (OED) #OED	</tr>
+<tr>	<td>inputs.exps.index_obs_guess	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.index_obs_max	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.index_obs_min	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.index_observables	<td>indices of states for observ.	</tr>
+<tr>	<td>inputs.exps.max_obs	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.n_con	<td>number of constraints	</tr>
+<tr>	<td>inputs.exps.n_const_eq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.n_const_ineq_tf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.n_control_const	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.n_exp	<td>number of experiments	</tr>
+<tr>	<td>inputs.exps.n_linear	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.n_obs	<td>number of observables	</tr>
+<tr>	<td>inputs.exps.n_pulses	<td>number of pulses in stimuli profile	</tr>
+<tr>	<td>inputs.exps.n_s	<td>number of sampling time	</tr>
+<tr>	<td>inputs.exps.n_steps	<td>number of steps in stimuli profile	</tr>
+<tr>	<td>inputs.exps.nanfilter	<td>indicating missing data	</tr>
+<tr>	<td>inputs.exps.noise_type	<td>noise type for in-silico pseudo data generation	</tr>
+<tr>	<td>inputs.exps.obs	<td>observation equations	</tr>
+<tr>	<td>inputs.exps.obs_names	<td>observables names	</tr>
+<tr>	<td>inputs.exps.obs_type	<td>designed observables (OED)#OED	</tr>
+<tr>	<td>inputs.exps.pend	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.std_dev	<td>relative standard deviation	</tr>
+<tr>	<td>inputs.exps.stddeva	<td>lin. Noise model parameter	</tr>
+<tr>	<td>inputs.exps.stddevb	<td>lin. Noise model parameter	</tr>
+<tr>	<td>inputs.exps.t_con	<td>time of input changing	</tr>
+<tr>	<td>inputs.exps.t_f	<td>final time for IVP	</tr>
+<tr>	<td>inputs.exps.t_in	<td>initial time for IVP	</tr>
+<tr>	<td>inputs.exps.t_int	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.t_s	<td>sampling times	</tr>
+<tr>	<td>inputs.exps.tcon_guess	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.tf_guess	<td>init. guess for exp. dur. (OED) #OED	</tr>
+<tr>	<td>inputs.exps.tf_type	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.exps.ts_0	<td>OED first sampling time	</tr>
+<tr>	<td>inputs.exps.ts_min_dist	<td>minimum sampling distance in OED #OED	</tr>
+<tr>	<td>inputs.exps.ts_type	<td>designed or fixed sampling (OED) #OED	</tr>
+<tr>	<td>inputs.exps.u	<td>stimuli values	</tr>
+<tr>	<td>inputs.exps.u_guess	<td>stimuli guess OED? #OED	</tr>
+<tr>	<td>inputs.exps.u_interp	<td>stimuli profile (interpolation type)	</tr>
+<tr>	<td>inputs.exps.u_max	<td>max bounds on inputs	</tr>
+<tr>	<td>inputs.exps.u_min	<td>min bounds on inputs	</tr>
+<tr>	<td>inputs.exps.u_type	<td>designed or fixed inputs (OED) #OED	</tr>
+<tr>	<td>inputs.exps.w_obs	<td>weights of observables for??	</tr>
+<tr>	<td>inputs.exps.y0_guess	<td>initial condition OED #OED	</tr>
+<tr>	<td>inputs.exps.y0_max	<td>initial condition OED #OED	</tr>
+<tr>	<td>inputs.exps.y0_min	<td>initial condition OED #OED	</tr>
+<tr><th colspan = "2">inputs.ivpsol</th></tr>
+<tr>	<td>inputs.ivpsol.atol	<td>Default IVP solver integration tolerances	</tr>
+<tr>	<td>inputs.ivpsol.ivp_maxnumsteps	<td>CVODES maximum number of steps	</tr>
+<tr>	<td>inputs.ivpsol.ivpmex	<td>mex file for the solution of dynamics	</tr>
+<tr>	<td>inputs.ivpsol.ivpsolver	<td>solver algorithm	</tr>
+<tr>	<td>inputs.ivpsol.max_step_size	<td>CVODES max step size	</tr>
+<tr>	<td>inputs.ivpsol.nthreads	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.ivpsol.reinitsolver	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.ivpsol.rtol	<td>Default IVP solver integration tolerances	</tr>
+<tr>	<td>inputs.ivpsol.sens_maxnumsteps	<td>CVODES maximum number of steps	</tr>
+<tr>	<td>inputs.ivpsol.sensmex	<td>MEX file for the solution of the Sensitivity Eqns	</tr>
+<tr>	<td>inputs.ivpsol.senssolver	<td>sensitivity algorithm	</tr>
+<tr><th colspan = "2">inputs.model</th></tr>
+<tr>	<td>inputs.model.AMIGOjac	<td>compute the system's Jacobian analytically to pass to CVODE	</tr>
+<tr>	<td>inputs.model.AMIGOsensrhs	<td>compute the exact right hand side of the sensitivity eqns for CVODES	</tr>
+<tr>	<td>inputs.model.J	<td>system's Jacobian (with respect to the states: dfdx)in C format for CVODE	</tr>
+<tr>	<td>inputs.model.Jpar	<td>system's Jacobian with respect to the parameters dfdp	</tr>
+<tr>	<td>inputs.model.blackboxmodel_file	<td>model dynamics	</tr>
+<tr>	<td>inputs.model.comp_fullC	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.model.cvodes_include	<td>C-code, include additional header	</tr>
+<tr>	<td>inputs.model.debugmode	<td>for debugging	</tr>
+<tr>	<td>inputs.model.eqns	<td>char array containing the model eqns #Sim	</tr>
+<tr>	<td>inputs.model.eqns_type	<td>Diff. Eqns type ordinary or diff. Alg.	</tr>
+<tr>	<td>inputs.model.exe_type	<td>AMIGO execution type #Sim	</tr>
+<tr>	<td>inputs.model.input_model_type	<td>model description type #Sim	</tr>
+<tr>	<td>inputs.model.mass_matrix	<td>for DAE systems	</tr>
+<tr>	<td>inputs.model.matlabmodel_file	<td>file including the system dyn. #Sim	</tr>
+<tr>	<td>inputs.model.mexfile	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.model.mexfunction	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.model.n_par	<td>number of parameters	</tr>
+<tr>	<td>inputs.model.n_st	<td>number of states	</tr>
+<tr>	<td>inputs.model.n_stimulus	<td>number of stimuli	</tr>
+<tr>	<td>inputs.model.names_type	<td>state name input type	</tr>
+<tr>	<td>inputs.model.obsfile	<td>user provided observation function	</tr>
+<tr>	<td>inputs.model.odes_file	<td>fortran or C model file	</tr>
+<tr>	<td>inputs.model.overwrite_model	<td>regenerate compiled models	</tr>
+<tr>	<td>inputs.model.par	<td>model parameter values	</tr>
+<tr>	<td>inputs.model.par_names	<td>model parameter names	</tr>
+<tr>	<td>inputs.model.positiveStates	<td>force CVODES for nonnegative sol.	</tr>
+<tr>	<td>inputs.model.sens_file	<td>fortran or C model sensitivity file	</tr>
+<tr>	<td>inputs.model.st_max	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.model.st_min	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.model.st_names	<td>custom state names	</tr>
+<tr>	<td>inputs.model.stimulus_names	<td>stimuli names	</tr>
+<tr>	<td>inputs.model.use_user_obs	<td>???	</tr>
+<tr>	<td>inputs.model.use_user_sens_obs	<td>???	</tr>
+<tr>	<td>inputs.model.ydot	<td>???	</tr>
+<tr><th colspan = "2">inputs.nlpsol</th></tr>
+<tr>	<td>inputs.nlpsol.cvodes_gradient	<td>only with FullMex, CVODES,n2fb	</tr>
+<tr>	<td>inputs.nlpsol.global_solver	<td>missing description	</tr>
+<tr>	<td>inputs.nlpsol.iterprint	<td>in mex only?	</tr>
+<tr>	<td>inputs.nlpsol.local_solver	<td>not for the user	</tr>
+<tr>	<td>inputs.nlpsol.mkl_gradient	<td>fullmex only?	</tr>
+<tr>	<td>inputs.nlpsol.mkl_tol	<td>fullmex only?	</tr>
+<tr>	<td>inputs.nlpsol.multi_starts	<td>Number of different initial guesses to run local methods in the multistart approach	</tr>
+<tr>	<td>inputs.nlpsol.nlpsolver	<td>NLP solver algorithm	</tr>
+<tr><th colspan = "2">inputs.nlpsol.DE</th></tr>
+<tr>	<td>inputs.nlpsol.DE.CR	<td>crossover probabililty constant	</tr>
+<tr>	<td>inputs.nlpsol.DE.F	<td>stepsize	</tr>
+<tr>	<td>inputs.nlpsol.DE.NP	<td># of population members	</tr>
+<tr>	<td>inputs.nlpsol.DE.VTR	<td>value to reach, (fobj_min)	</tr>
+<tr>	<td>inputs.nlpsol.DE.cvarmax	<td>max. Variance for population	</tr>
+<tr>	<td>inputs.nlpsol.DE.itermax	<td>max. # of iteration/generations	</tr>
+<tr>	<td>inputs.nlpsol.DE.refresh	<td>frequency of intermediate output	</tr>
+<tr>	<td>inputs.nlpsol.DE.strategy	<td>strategy	</tr>
+<tr>	<td>inputs.nlpsol.DE.var	<td>for initial pop generation	</tr>
+<tr><th colspan = "2">inputs.nlpsol.SRES</th></tr>
+<tr>	<td>inputs.nlpsol.SRES.NP	<td>population size	</tr>
+<tr>	<td>inputs.nlpsol.SRES.cvarmax	<td>convergence crit.	</tr>
+<tr>	<td>inputs.nlpsol.SRES.itermax	<td>max. # of iteration	</tr>
+<tr>	<td>inputs.nlpsol.SRES.mu	<td>parent number	</tr>
+<tr>	<td>inputs.nlpsol.SRES.pf	<td>pressure of fitness	</tr>
+<tr>	<td>inputs.nlpsol.SRES.var	<td>initial population param.	</tr>
+<tr>	<td>inputs.nlpsol.SRES.vareta	<td>initial population param.	</tr>
+<tr>	<td>inputs.nlpsol.SRES.varphi	<td>expected rate of convergence	</tr>
+<tr><th colspan = "2">inputs.nlpsol.eSS</th></tr>
+<tr>	<td>inputs.nlpsol.eSS.dim_refset	<td>number of candidates in the reference set	</tr>
+<tr>	<td>inputs.nlpsol.eSS.inter_save	<td>save intermetdiate to mat file	</tr>
+<tr>	<td>inputs.nlpsol.eSS.iterprint	<td>print each iteration	</tr>
+<tr>	<td>inputs.nlpsol.eSS.log_var	<td>indices of log. Transformed vars.	</tr>
+<tr>	<td>inputs.nlpsol.eSS.maxeval	<td>max. # of cost fun. Evaluation	</tr>
+<tr>	<td>inputs.nlpsol.eSS.maxtime	<td>max. CPU time (s)	</tr>
+<tr>	<td>inputs.nlpsol.eSS.ndiverse	<td># of member gen. By diversification	</tr>
+<tr><th colspan = "2">inputs.nlpsol.eSS.local</th></tr>
+<tr>	<td>inputs.nlpsol.eSS.local.finish	<td>missing description	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.iterprint	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.solver	<td>local method	</tr>
+<tr><th colspan = "2">inputs.nlpsol.eSS.local.lbfgsb</th></tr>
+<tr>	<td>inputs.nlpsol.eSS.local.lbfgsb.display	<td>	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.lbfgsb.grad	<td>what else is implemented?	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.lbfgsb.iterfun	<td>function called in every iteration	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.lbfgsb.maxiter	<td>max. # of iterations	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.lbfgsb.tolrfun	<td>opt. criterion: relative tolerance	</tr>
+<tr><th colspan = "2">inputs.nlpsol.eSS.local.nl2sol</th></tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.display	<td>reporting detail	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.grad	<td>gradient computation method	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.iterfun	<td>iteration fcn callbck	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.maxfeval	<td>max. # of fun. Eval in a call	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.maxiter	<td>max. # of iteration in a call	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.objrtol	<td>precision of the obj. Func. Calc.	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.tolafun	<td>optimality criterion abs. tolerance	</tr>
+<tr>	<td>inputs.nlpsol.eSS.local.nl2sol.tolrfun	<td>optimality criterion rel tolerance	</tr>
+<tr><th colspan = "2">inputs.nlpsol.globalm</th></tr>
+<tr>	<td>inputs.nlpsol.globalm.bestfval	<td>value to reach	</tr>
+<tr>	<td>inputs.nlpsol.globalm.iprint	<td>print iterations	</tr>
+<tr>	<td>inputs.nlpsol.globalm.local	<td>local solvers	</tr>
+<tr>	<td>inputs.nlpsol.globalm.localmf	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.globalm.maxfeval	<td>max. # of function evaluations	</tr>
+<tr>	<td>inputs.nlpsol.globalm.maxiter	<td>max. # of iteration	</tr>
+<tr>	<td>inputs.nlpsol.globalm.maxlocal	<td>max # of local searches	</tr>
+<tr>	<td>inputs.nlpsol.globalm.maxnc	<td>max. # of clusters	</tr>
+<tr>	<td>inputs.nlpsol.globalm.maxtime	<td>max. CPU time (s)	</tr>
+<tr>	<td>inputs.nlpsol.globalm.msflag	<td>flag for pure multistart	</tr>
+<tr>	<td>inputs.nlpsol.globalm.nsampl	<td># of uniformly drawn sample points	</tr>
+<tr>	<td>inputs.nlpsol.globalm.nsel	<td># of selected sample points	</tr>
+<tr>	<td>inputs.nlpsol.globalm.pweight	<td>constraint violation penalty	</tr>
+<tr>	<td>inputs.nlpsol.globalm.tolfun	<td>tol. Func for the objective	</tr>
+<tr>	<td>inputs.nlpsol.globalm.tolx	<td>tolerance for the decision vars.	</tr>
+<tr><th colspan = "2">inputs.nlpsol.local</th></tr>
+<tr>	<td>inputs.nlpsol.local.iterprint	<td>print intermediate results	</tr>
+<tr>	<td>inputs.nlpsol.local.maxeval	<td>max. # of function evaluations	</tr>
+<tr>	<td>inputs.nlpsol.local.maxtime	<td>max CPU time (s)	</tr>
+<tr>	<td>inputs.nlpsol.local.solver	<td>set by inputs.nlpsol.nlpsolver	</tr>
+<tr><th colspan = "2">inputs.nlpsol.multistart</th></tr>
+<tr>	<td>inputs.nlpsol.multistart.iterprint	<td>print intermediate results	</tr>
+<tr>	<td>inputs.nlpsol.multistart.maxeval	<td>max. € of function evaluations	</tr>
+<tr>	<td>inputs.nlpsol.multistart.maxtime	<td>max CPU time (s)	</tr>
+<tr><th colspan = "2">inputs.nlpsol.regularization</th></tr>
+<tr>	<td>inputs.nlpsol.regularization.alpha	<td>regularization parmeter #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.alpha_max	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.regularization.alpha_min	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.regularization.isinFIM	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.regularization.ison	<td>is used? #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.method	<td>regularization method. #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.n_alpha	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.regularization.regParMethod	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.regularization.user_reg_functional	<td>user specified penalty function #REG #PE	</tr>
+<tr><th colspan = "2">inputs.nlpsol.regularization.tikhonov</th></tr>
+<tr>	<td>inputs.nlpsol.regularization.tikhonov.gW	<td>weigting matrix for global params. #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.tikhonov.gx0	<td>global reference parameters #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.tikhonov.lW	<td>weigting matrix for local params. #REG #PE	</tr>
+<tr>	<td>inputs.nlpsol.regularization.tikhonov.lx0	<td>local reference parameters #REG #PE	</tr>
+<tr><th colspan = "2">inputs.pathd</th></tr>
+<tr>	<td>inputs.pathd.AMIGO_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.FIM	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.conv_curve_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.corr_mat_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.fit_plot_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.input_file	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.multistart_hist	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.obs_file	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.obs_function	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.obs_plot_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.obs_sens_file	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.obs_sens_function	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.problem_folder_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.report	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.report_name	<td>Name of the report file to be created	</tr>
+<tr>	<td>inputs.pathd.residuals_plot_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.results_folder	<td>Name of the folder to keep results for a given problem	</tr>
+<tr>	<td>inputs.pathd.results_path	<td>General name of the folder to keep results	</tr>
+<tr>	<td>inputs.pathd.run_overwrite	<td>allow overwriting runs with the same run identifier	</tr>
+<tr>	<td>inputs.pathd.runident	<td>Identifier required in order not to overwrite previous results	</tr>
+<tr>	<td>inputs.pathd.runident_cl	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.sens_mat_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.sens_par_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.sens_path	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.short_name	<td>Short name, will be used to generate specific problem folders/files	</tr>
+<tr>	<td>inputs.pathd.struct_name	<td>strrepoName of the matlab structure to keep inputs and resultsrt	</tr>
+<tr>	<td>inputs.pathd.struct_results	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.pathd.task_folder	<td>#RED #MISSING	</tr>
+<tr><th colspan = "2">inputs.plotd</th></tr>
+<tr>	<td>inputs.plotd.conf_cloud	<td> Name of the confidence region by pairs of unknowns	</tr>
+<tr>	<td>inputs.plotd.conf_hist	<td>Name of the confidence region for each unknowns	</tr>
+<tr>	<td>inputs.plotd.contour1D_plot	<td>Name of the llq/lsq cost plots vs unknowns	</tr>
+<tr>	<td>inputs.plotd.contour_atol	<td>Integration tolerances for the contour plots	</tr>
+<tr>	<td>inputs.plotd.contour_plot	<td>ame of the llq/lsq contour plots by pairs of unknowns	</tr>
+<tr>	<td>inputs.plotd.contour_rtol	<td>Integration tolerances for the contour plots	</tr>
+<tr>	<td>inputs.plotd.convergence_curve	<td>Name of the NLP solver convergence curve	</tr>
+<tr>	<td>inputs.plotd.data_plot	<td>Name of experimental data plots	</tr>
+<tr>	<td>inputs.plotd.ecc	<td>Name of the figure of the eccentricity by pairs of unknowns	</tr>
+<tr>	<td>inputs.plotd.epssave	<td>Figures may be saved in .eps	</tr>
+<tr>	<td>inputs.plotd.figsave	<td>save figures as .fig	</tr>
+<tr>	<td>inputs.plotd.fit_plot	<td> Name of best fit plots	</tr>
+<tr>	<td>inputs.plotd.multistart_hist	<td>Name of the histogram of solutions for the multistart of local NLP solvers	</tr>
+<tr>	<td>inputs.plotd.n_t_plot	<td>Number of times to be used for observables and states plots	</tr>
+<tr>	<td>inputs.plotd.number_max_hist	<td>Maximum number of unknowns histograms per figure	</tr>
+<tr>	<td>inputs.plotd.number_max_obs	<td>Maximum number of observables per figure	</tr>
+<tr>	<td>inputs.plotd.number_max_states	<td>Maximum number of states per figure	</tr>
+<tr>	<td>inputs.plotd.nx_contour	<td>Number of points for plotting the contours x and y direction	</tr>
+<tr>	<td>inputs.plotd.ny_contour	<td>Number of points for plotting the contours x and y direction	</tr>
+<tr>	<td>inputs.plotd.obs_plot	<td>Name of observables plot	</tr>
+<tr>	<td>inputs.plotd.pareto_plot	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.plotd.plotlevel	<td>Display of results	</tr>
+<tr>	<td>inputs.plotd.residuals_plot	<td>Name of best fit corresponding residuals	</tr>
+<tr>	<td>inputs.plotd.states_plot	<td>Name of states plot	</tr>
+<tr>	<td>inputs.plotd.u_plot	<td>#RED #MISSING	</tr>
+<tr><th colspan = "2">inputs.rank</th></tr>
+<tr>	<td>inputs.rank.gr_samples	<td>Number of samples for global sensitivities and global rank within LHS	</tr>
+<tr><th colspan = "2">inputs.rid</th></tr>
+<tr>	<td>inputs.rid.conf_ntrials	<td>Number of trials for the robust confidence computation	</tr>
+</table></body>
+</html>

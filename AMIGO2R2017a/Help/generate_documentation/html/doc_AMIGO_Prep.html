@@ -1,0 +1,490 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>doc_AMIGO_Prep</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-27"><meta name="DC.source" content="doc_AMIGO_Prep.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #007946; 
+  font-size: x-large;
+}
+
+h1b {
+  color: #255DA5; 
+  font-size: x-large;
+}
+
+li {
+  color: #255DA5; /* bullet color */
+}
+li {
+  color: #255DA5; /* bullet color */
+}
+li span {
+  color: black; /* text color */
+}
+
+h2 {
+  color: #255DA5;
+  font-size: large;
+}
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 820px;
+  /* Hack for IE6 */
+  width: auto !important; width: 820px;
+  text-align: justify;
+}
+
+pre.codeinput {
+  background: #E9F4F6;
+  padding: 10px;
+  width: 820px;
+  text-align: justify;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+   width: 820px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><p><img vspace="5" hspace="5" src="logo_AMIGO2_small.png" alt=""> </p><p>
+<p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>AMIGO_Prep</b></p>
+<hr align="left" width="820">
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Task description</a></li><li><a href="#3">Call AMIGO_Prep from command line</a></li><li><a href="#5">Example</a></li><li><a href="#8">MATLAB model generation: charmodelM</a></li><li><a href="#14">FORTRAN model generation: charmodelF</a></li><li><a href="#19">C model generation: charmodelC</a></li><li><a href="#21">See also</a></li><li><a href="#23">Important note</a></li></ul></div><h2>Task description<a name="1"></a></h2><p>
+<div style="background-color: #E6FAE6; margin-left: 1px; margin-right: 5px; padding-bottom: 1px; padding-left: 8px; padding-right: 8px; padding-top: 2px; line-height: 1.25">
+<dl>Previous to any other task in AMIGO2, models need to be preprocessed.
+AMIGO_Prep interprets the inputs structure and creates the necessary
+files for other tasks.</dl>
+<dl> </dl>
+<dl>The user may input the model directly by means of MATLAB, FORTRAN or
+C functions. In these cases AMIGO_Prep will compile files and generate
+mexfunctions when required.</dl>
+<dl> </dl>
+<dl>Alternatively user may input equations as strings in inputs.model.eqns.
+In this case AMIGO_Prep will generate functions for model simulation
+and sensitivitiy analysis, as well as the necessary mex files.
+In this scenario the user may select to generate:</dl>
+<dl> </dl>
+<ul>
+<li> MATLAB code, inputs.model.input_model_type='charmodelM';</li>
+<li> FORTRAN code, inputs.model.input_model_type='charmodelF';</li>
+<li> C code, inputs.model.input_model_type='charmodelC'. </li></ul></div>
+</p><h2>Call AMIGO_Prep from command line<a name="3"></a></h2><p>It is recommended to keep all inputs in a <b>'problem_file'.m</b>. SObs task can then be called in two different ways:</p><p>1. Using the <b>inputs structure</b>:</p><pre>  &gt; problem_file</pre><pre>  &gt; AMIGO_Prep(inputs)</pre><p>2. Using the <b>input file</b>:</p><pre>  &gt; AMIGO_Prep('problem_file')</pre><h2>Example<a name="5"></a></h2><p>TITLE: The circadian clock in Arabidopsis thaliana</p><p><img vspace="5" hspace="5" src="circadian.png" alt=""> </p><pre class="codeinput"><span class="comment">%============================</span>
+<span class="comment">% RESULTS PATHS RELATED DATA</span>
+<span class="comment">%============================</span>
+inputs.pathd.results_folder=<span class="string">'arabidopsis'</span>;  <span class="comment">% Folder to keep results (in Results\)</span>
+inputs.pathd.short_name=<span class="string">'arabidopsis'</span>;      <span class="comment">% Label to identify figures and reports</span>
+
+
+<span class="comment">%============================</span>
+<span class="comment">% MODEL DEFINITION</span>
+<span class="comment">%============================</span>
+inputs.model.n_st=7;                        <span class="comment">% Number of states</span>
+inputs.model.n_par=27;                      <span class="comment">% Number of parameters</span>
+inputs.model.n_stimulus=1;                  <span class="comment">% Number of stimuli</span>
+inputs.model.st_names=char(<span class="string">'CL_m'</span>,<span class="string">'CL_c'</span>,<span class="keyword">...</span><span class="comment">% Names of the states</span>
+    <span class="string">'CL_n'</span>,<span class="string">'CT_m'</span>,<span class="string">'CT_c'</span>,<span class="string">'CT_n'</span>,<span class="string">'CP_n'</span>);
+
+inputs.model.par_names=char(<span class="string">'n1'</span>,<span class="string">'n2'</span>,<span class="string">'g1'</span>,<span class="string">'g2'</span>,<span class="string">'m1'</span>,<span class="string">'m2'</span>,<span class="string">'m3'</span>,<span class="string">'m4'</span>,<span class="string">'m5'</span>,<span class="string">'m6'</span>,<span class="keyword">...</span>
+    <span class="string">'m7'</span>,<span class="string">'k1'</span>,<span class="string">'k2'</span>,<span class="string">'k3'</span>,<span class="string">'k4'</span>,<span class="string">'k5'</span>,<span class="string">'k6'</span>,<span class="string">'k7'</span>,<span class="string">'p1'</span>,<span class="string">'p2'</span>,<span class="keyword">...</span>
+    <span class="string">'p3'</span>,<span class="string">'r1'</span>,<span class="string">'r2'</span>,<span class="string">'r3'</span>,<span class="string">'r4'</span>,<span class="string">'q1'</span>,<span class="string">'q2'</span>);    <span class="comment">% Names of the parameters</span>
+
+inputs.model.stimulus_names=char(<span class="string">'light'</span>);  <span class="comment">% Names of the stimuli</span>
+inputs.model.eqns=<span class="keyword">...</span><span class="comment">                       % Model equations</span>
+    char(<span class="string">'dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n'</span>);
+</pre><p>IMPORTANT:</p><p>User may select any customised name but: n, t, u, y, ydot, par, tlast, told, pend and v which are reserved words</p><pre class="codeinput">inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982<span class="keyword">...</span><span class="comment"> % Nominal parameter</span>
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045<span class="keyword">...</span><span class="comment">     % values</span>
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994<span class="keyword">...</span>
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0];
+</pre><h2>MATLAB model generation: charmodelM<a name="8"></a></h2><p>By defatult, AMIGO2 uses models implemented in MATLAB together with MATLAB IVP solver ode15s.</p><p>This means that inputs.model.input_model_type is set to 'charmodelM'; In this case AMIGO_Prep will generate a .m file: <b>fcn_inputs.pathd.short_name</b>.m in the Results folder: <b>AMIGO_PATH\Results\inputs.pathd.results_folder</b></p><pre class="codeinput">    inputs.model.input_model_type=<span class="string">'charmodelM'</span>;
+    MInputs=AMIGO_Prep(inputs);
+</pre><pre class="codeoutput">
+
+*********************************** 
+     AMIGO2, Copyright @CSIC      
+     AMIGO2_R1_2015 [Oct 2015]      
+*********************************** 
+
+*Date: 27-Oct-2015
+
+------&gt;Pre processing....this may take a few seconds.
+
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+By default ode15s will be used.
+By default sensmat will be used.
+
+
+------&gt; Generating Matlab file...
+
+		D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\arabidopsis\fcn_arabidopsis.m
+
+
+------&gt;Files generated....
+</pre>
+
+<pre class="codeinput">    
+ <p>The following files were generated</p> 
+  \Results\arabidopsis\fcn_arabidopsis.m
+</pre>
+
+<p>By default ode15s will be used to solve model equations and sensmat to compute sensitivities. Check <a href="doc_AMIGO_ivpsol.html">IVP</a> solvers for alternatives.</p><h2>FORTRAN model generation: charmodelF<a name="14"></a></h2><p>To enhance efficiency of simulation, the user may select to generate FORTRAN models. AMIGO_Prep will generate FORTRAN subroutines to solve model equations and sensitivities. FORTRAN codes will be kept in folder: <b>AMIGO_PATH\Results\inputs.pathd.results_folder</b></p><p>In addition, the FORTRAN codes will be mexed with the selected FORTRAN IVP solver (RADAU5 is the default for model solution; ODESSA is the default to compute sesitivities). The following mexfiles will be created: inputs.ivpsol.ivpsolverg_inputs.pathd.short_name.mexw32 and odessag_inputs.pathd.short_name.mexw32. Mexfiles will be kept in folder: <b>AMIGO_PATH\Results\inputs.pathd.results_folder</b></p><p>Check <a href="doc_AMIGO_ivpsol.html">IVP</a> solvers to learn about more options.</p><pre class="codeinput">    inputs.model.input_model_type=<span class="string">'charmodelF'</span>;
+    FInputs=AMIGO_Prep(inputs);
+</pre><pre class="codeoutput">
+
+*********************************** 
+     AMIGO2, Copyright @CSIC      
+     AMIGO2_R1_2015 [Oct 2015]      
+*********************************** 
+
+*Date: 27-Oct-2015
+
+------&gt;Pre processing....this may take a few seconds.
+
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+
+
+------&gt; WARNING message
+
+		 You have selected a charmodelF model type. But you have not specified a particular ODE solver.
+		 To generate dlls (by default) radau5 is used.
+		 If you want to use a different solver, please update your input file. 
+
+
+------&gt; WARNING message
+
+		 You have selected a charmodelF model type. But you have not specified a particular SENS solver.
+		 To generate dlls (by default) odessa is used.
+
+
+------&gt; Generating fortran code ...
+
+
+
+------&gt; Mexing files....
+
+In file D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\radau5\cradau5g.f:86 
+ 
+      CALL FCNCRADAU5(NLHS,PL,NRHS,PR,A3,A5,A7,A9,A10,A13,A15,A17, 
+                                      1 
+In file D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\radau5\cradau5g.f:92 
+ 
+      SUBROUTINE FCNCRADAU5(NLHS,PL,NRHS,PR,A3,A5,A7,A9,A10,A13,A15, 
+                                            2 
+Warning (155): Inconsistent types (INTEGER(4)/REAL(8)) in actual argument lists at (1) and (2) 
+In file D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\odessa\codessag.f:82 
+ 
+      CALL FCNCODESSA(NLHS,PL,NRHS,PR,A3,A4,A12,A13,A15,A18,A20, 
+                                      1 
+In file D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\odessa\codessag.f:88 
+ 
+      SUBROUTINE FCNCODESSA(NLHS,PL,NRHS,PR,A3,A4,A12,A13,A15,A18,A20, 
+                                            2 
+Warning (155): Inconsistent types (INTEGER(4)/REAL(8)) in actual argument lists at (1) and (2) 
+
+
+------&gt;Files generated....
+</pre>
+
+<pre class="codeinput"> <p>The following files were generated</p> 
+\Results\arabidopsis\fcn.f
+\Results\arabidopsis\sens.f
+\Results\arabidopsis\radau5g_arabidopsis.mexw32
+\Results\arabidopsis\odessag_arabidopsis.mexw32
+</pre><h2>C model generation: charmodelC<a name="19"></a></h2><p>To enhance efficiency of simulation, the user may select to generate C models. AMIGO_Prep will generate a C funtion to solve model equations and sensitivities. C codes will be kept in folder: <b>AMIGO_PATH\Results\|inputs.pathd.results_folder</b></p><p>CVODES will be used to solve C models.</p><pre class="codeinput">inputs.model.input_model_type=<span class="string">'charmodelC'</span>;
+CInputs=AMIGO_Prep(inputs);
+
+</pre><pre class="codeoutput">
+
+*********************************** 
+     AMIGO2, Copyright @CSIC      
+     AMIGO2_R1_2015 [Oct 2015]      
+*********************************** 
+
+*Date: 27-Oct-2015
+
+------&gt;Pre processing....this may take a few seconds.
+
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+Warning: AMIGO_check_IVPsolver: Changing ivp solver to the only option compatible with charmodelC, cvodes 
+Warning: AMIGO_check_IVPsolver: Changing sensitivities solver to, cvodes 
+------&gt; Generating C code ...
+
+
+------&gt; Mexing files....
+
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c: In function 'simulate_amigo_model': 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c:330:6: warning: passing argument 1 of 'mexPrintf' from incompatible pointer type [enabled by default] 
+      mexPrintf(stderr,"\nSolver failed at flag = CVode(cvode_mem, tout, y, &amp;t, CV_TSTOP_RETURN);. . .\n"); 
+      ^ 
+In file included from D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\include\include_amigo/simulate_amigo_model.h:4:0, 
+                 from D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c:1: 
+C:\MATLAB\R2011B~1\extern\include/mex.h:209:14: note: expected 'const char *' but argument is of type 'struct FILE *' 
+ EXTERN_C int mexPrintf( 
+              ^ 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_interface\interface_with_matlab.c: In function 'mexFunction': 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_interface\interface_with_matlab.c:200:17: warning: assignment from incompatible pointer type [enabled by default] 
+    stats_struct = mxGetPr(plhs[5]); 
+                 ^ 
+
+
+------&gt;Files generated....</pre>
+
+<pre class="codeinput"> <p>The following files were generated</p> 
+\Results\arabidopsis\amigoRHS.c
+\Results\arabidopsis\cvodesg_arabidopsis.mexw32
+</pre>
+
+<h2>See also<a name="21"></a></h2><div><ul><li><a href="doc_AMIGO_Input.html">How to input a problem in AMIGO2</a></li><li><a href="doc_AMIGO_ivpsol.html">Initial value problem solvers in AMIGO2</a></li><li><a href="doc_AMIGO_exe_type.html">C execution modes in AMIGO2</a></li></ul></div><h2>Important note<a name="23"></a></h2><p>AMIGO_Prep must be excuted any time the model is modified. The only exception to this is the costMex and fullMex execution modes for which AMIGO_Prep must be executed if either the model or the observation function are modified.</p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% <<logo_AMIGO2_small.png>>
+%
+% <html>
+% <p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>AMIGO_Prep</b></p>
+% <hr align="left" width="820">
+% </html>
+
+%% Task description
+
+   %%
+   % <html>
+   % <div style="background-color: #E6FAE6; margin-left: 1px; margin-right: 5px; padding-bottom: 1px; padding-left: 8px; padding-right: 8px; padding-top: 2px; line-height: 1.25">
+   % <dl>Previous to any other task in AMIGO2, models need to be preprocessed. 
+   % AMIGO_Prep interprets the inputs structure and creates the necessary
+   % files for other tasks.</dl>
+   % <dl> </dl>
+   % <dl>The user may input the model directly by means of MATLAB, FORTRAN or
+   % C functions. In these cases AMIGO_Prep will compile files and generate
+   % mexfunctions when required.</dl>
+   % <dl> </dl>
+   % <dl>Alternatively user may input equations as strings in inputs.model.eqns. 
+   % In this case AMIGO_Prep will generate functions for model simulation
+   % and sensitivitiy analysis, as well as the necessary mex files.
+   % In this scenario the user may select to generate:</dl>
+   % <dl> </dl>
+   % <ul>
+   % <li> MATLAB code, inputs.model.input_model_type='charmodelM';</li>
+   % <li> FORTRAN code, inputs.model.input_model_type='charmodelF';</li>  
+   % <li> C code, inputs.model.input_model_type='charmodelC'. </li></ul></div>
+   % </html>
+   %
+
+        
+%% Call AMIGO_Prep from command line
+   
+%%
+% It is recommended to keep all inputs in a *'problem_file'.m*. SObs task can then be called in two different ways:
+%
+% 1. Using the *inputs structure*:
+%
+%    > problem_file   
+%
+%    > AMIGO_Prep(inputs)     
+%
+% 2. Using the *input file*:
+%
+%    > AMIGO_Prep('problem_file') 
+%
+
+
+
+%% Example
+% TITLE: The circadian clock in Arabidopsis thaliana
+%%
+%
+% <<circadian.png>>
+%
+   
+%============================
+% RESULTS PATHS RELATED DATA
+%============================
+inputs.pathd.results_folder='arabidopsis';  % Folder to keep results (in Results\) 
+inputs.pathd.short_name='arabidopsis';      % Label to identify figures and reports 
+
+
+%============================
+% MODEL DEFINITION    
+%============================           
+inputs.model.n_st=7;                        % Number of states                      
+inputs.model.n_par=27;                      % Number of parameters            
+inputs.model.n_stimulus=1;                  % Number of stimuli              
+inputs.model.st_names=char('CL_m','CL_c',...% Names of the states 
+    'CL_n','CT_m','CT_c','CT_n','CP_n');    
+
+inputs.model.par_names=char('n1','n2','g1','g2','m1','m2','m3','m4','m5','m6',...
+    'm7','k1','k2','k3','k4','k5','k6','k7','p1','p2',...
+    'p3','r1','r2','r3','r4','q1','q2');    % Names of the parameters         
+
+inputs.model.stimulus_names=char('light');  % Names of the stimuli             
+inputs.model.eqns=...                       % Model equations          
+    char('dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)',...
+    'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)',...
+    'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)',...
+    'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)',...
+    'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)',...
+    'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)',...
+    'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n');
+
+    %% 
+    % IMPORTANT:
+    %
+    % User may select any customised name but: n, t, u, y, ydot, par, tlast,
+    % told, pend and v which are reserved words
+
+inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982... % Nominal parameter
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045...     % values 
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994...
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0]; 
+    
+    
+    
+%% MATLAB model generation: charmodelM 
+%
+    %%
+    % 
+    % By defatult, AMIGO2 uses models implemented in MATLAB together with
+    % MATLAB IVP solver ode15s.
+    %%
+    % This means that inputs.model.input_model_type is set to 'charmodelM';
+    % In this case AMIGO_Prep will generate a .m file: *fcn_inputs.pathd.short_name*.m in the Results
+    % folder: *AMIGO_PATH\Results\inputs.pathd.results_folder*
+    
+    inputs.model.input_model_type='charmodelM';
+    MInputs=AMIGO_Prep(inputs);
+
+    %%
+    % You can inspect the model file:
+    
+    disp(MInputs.model.odes_file);
+
+    %%
+    % By default ode15s will be used to solve model equations and sensmat
+    % to compute sensitivities. Check <doc_AMIGO_ivpsol.html IVP> solvers
+    % for alternatives.
+ 
+%%
+%
+%% FORTRAN model generation: charmodelF 
+%
+ 
+    %%
+    % To enhance efficiency of simulation, the user may select to generate 
+    % FORTRAN models. AMIGO_Prep will generate FORTRAN subroutines to solve
+    % model equations and sensitivities. 
+    % FORTRAN codes will be kept in folder: *AMIGO_PATH\Results\inputs.pathd.results_folder*
+    %%
+    % In addition, the FORTRAN codes will be mexed with the selected
+    % FORTRAN IVP solver (RADAU5 is the default for model solution; ODESSA
+    % is the default to compute sesitivities).
+    % The following mexfiles will be created:
+    % inputs.ivpsol.ivpsolverg_inputs.pathd.short_name.mexw32 and
+    % odessag_inputs.pathd.short_name.mexw32.
+    % Mexfiles will be kept in folder: *AMIGO_PATH\Results\inputs.pathd.results_folder*
+   
+    %%
+    % Check <doc_AMIGO_ivpsol.html IVP> solvers to learn about more
+    % options.
+    
+    inputs.model.input_model_type='charmodelF';
+    FInputs=AMIGO_Prep(inputs);
+    
+    %%
+    % The following files were generated
+    
+    disp(FInputs.model.odes_file);
+    disp(FInputs.model.sens_file);
+    disp([FInputs.pathd.problem_folder_path '\' FInputs.ivpsol.ivpmex '.mexw32']);
+    disp([FInputs.pathd.problem_folder_path '\' FInputs.ivpsol.sensmex '.mexw32']);
+
+    %% C model generation: charmodelC 
+    % To enhance efficiency of simulation, the user may select to generate 
+    % C models. AMIGO_Prep will generate a C funtion to solve model equations and sensitivities. 
+    % C codes will be kept in folder: *AMIGO_PATH\Results\|inputs.pathd.results_folder*
+    %%
+    % CVODES will be used to solve C models.
+    
+inputs.model.input_model_type='charmodelC';
+CInputs=AMIGO_Prep(inputs);
+
+disp(CInputs.model.odes_file);
+disp([CInputs.pathd.problem_folder_path '\' CInputs.ivpsol.ivpmex '.mexw32']);
+
+    
+   
+   %% See also 
+
+    %%
+    % * <doc_AMIGO_Input.html How to input a problem in AMIGO2>
+    % * <doc_AMIGO_ivpsol.html Initial value problem solvers in AMIGO2>
+    % * <doc_AMIGO_exe_type.html C execution modes in AMIGO2>
+
+    
+    
+    %% Important note
+    
+    %%
+    % AMIGO_Prep must be excuted any time the model is modified. 
+    % The only exception to this is the costMex and fullMex
+    % execution modes for which AMIGO_Prep must be executed if either the model or
+    % the observation function are modified.
+
+
+    
+
+##### SOURCE END #####
+--></body></html>

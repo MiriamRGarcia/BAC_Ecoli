@@ -1,0 +1,335 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>doc_AMIGO_stimuli</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-13"><meta name="DC.source" content="doc_AMIGO_stimuli.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #007946; 
+  font-size: x-large;
+}
+
+h1b {
+  color: #255DA5; 
+  font-size: x-large;
+}
+
+li {
+  color: #255DA5; /* bullet color */
+}
+li {
+  color: #255DA5; /* bullet color */
+}
+li span {
+  color: black; /* text color */
+}
+
+h2 {
+  color: #255DA5;
+  font-size: large;
+}
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 820px;
+  /* Hack for IE6 */
+  width: auto !important; width: 820px;
+  text-align: justify;
+}
+
+pre.codeinput {
+  background: #E9F4F6;
+  padding: 10px;
+  width: 820px;
+  text-align: justify;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+   width: 820px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><p>
+<p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>Stimuli definition</b></p>
+<hr align="left" width="820">
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#5">Illustrative example: The circadian clock in Arabidopsis thaliana</a></li><li><a href="#7">Illustrative example: Sustained stimulation</a></li><li><a href="#8">Illustrative example: Pulse-down stimulation</a></li><li><a href="#9">Illustrative example: Pulse-up stimulation</a></li><li><a href="#10">Illustrative example: Step wise stimulation</a></li><li><a href="#11">Illustrative example: Linear interpolation</a></li></ul></div><p>AMIGO2 allows to parameterize the stimuli using piecewise low order interpolations. It also considers some usual types of stimulation, such as sustained or pulse-wise. Following possibilities are available:</p><div><ul><li>Sustained stimulation</li><li>Step-wise interpolation</li><li>Pulsed: pulse-up and pulse-down stimulation</li><li>Linear interpolation</li></ul></div><p><img vspace="5" hspace="5" src="stimuli_interp.png" alt=""> </p><p>REMARK that linear interporlation can be used to define any of the other approximations.</p><h2>Illustrative example: The circadian clock in Arabidopsis thaliana<a name="5"></a></h2><p><img vspace="5" hspace="5" src="circadian.png" alt=""> </p><pre class="codeinput"><span class="comment">%============================</span>
+<span class="comment">% RESULTS PATHS RELATED DATA</span>
+<span class="comment">%============================</span>
+inputs.pathd.results_folder=<span class="string">'arabidopsis'</span>;  <span class="comment">% Folder to keep results (in Results\)</span>
+inputs.pathd.short_name=<span class="string">'arabidopsis'</span>;      <span class="comment">% Label to identify figures and reports</span>
+
+<span class="comment">%============================</span>
+<span class="comment">% MODEL DEFINITION</span>
+<span class="comment">%============================</span>
+inputs.model.n_st=7;                        <span class="comment">% Number of states</span>
+inputs.model.n_par=27;                      <span class="comment">% Number of parameters</span>
+inputs.model.n_stimulus=1;                  <span class="comment">% Number of stimuli</span>
+inputs.model.st_names=char(<span class="string">'CL_m'</span>,<span class="string">'CL_c'</span>,<span class="keyword">...</span><span class="comment">% Names of the states</span>
+    <span class="string">'CL_n'</span>,<span class="string">'CT_m'</span>,<span class="string">'CT_c'</span>,<span class="string">'CT_n'</span>,<span class="string">'CP_n'</span>);
+
+inputs.model.par_names=char(<span class="string">'n1'</span>,<span class="string">'n2'</span>,<span class="string">'g1'</span>,<span class="string">'g2'</span>,<span class="string">'m1'</span>,<span class="string">'m2'</span>,<span class="string">'m3'</span>,<span class="string">'m4'</span>,<span class="string">'m5'</span>,<span class="string">'m6'</span>,<span class="keyword">...</span>
+    <span class="string">'m7'</span>,<span class="string">'k1'</span>,<span class="string">'k2'</span>,<span class="string">'k3'</span>,<span class="string">'k4'</span>,<span class="string">'k5'</span>,<span class="string">'k6'</span>,<span class="string">'k7'</span>,<span class="string">'p1'</span>,<span class="string">'p2'</span>,<span class="keyword">...</span>
+    <span class="string">'p3'</span>,<span class="string">'r1'</span>,<span class="string">'r2'</span>,<span class="string">'r3'</span>,<span class="string">'r4'</span>,<span class="string">'q1'</span>,<span class="string">'q2'</span>);    <span class="comment">% Names of the parameters</span>
+
+inputs.model.stimulus_names=char(<span class="string">'light'</span>);  <span class="comment">% Names of the stimuli</span>
+inputs.model.eqns=<span class="keyword">...</span><span class="comment">                       % Model equations</span>
+    char(<span class="string">'dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n'</span>);
+
+inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982<span class="keyword">...</span><span class="comment"> % Nominal parameter</span>
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045<span class="keyword">...</span><span class="comment">     % values</span>
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994<span class="keyword">...</span>
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0];
+
+<span class="comment">%============================================</span>
+<span class="comment">% EXPERIMENTAL SCHEME (SIMULATION CONDITIONS)</span>
+<span class="comment">%============================================</span>
+
+inputs.exps.n_exp=1;                          <span class="comment">% Number of experiments</span>
+
+<span class="comment">% EXPERIMENT 1</span>
+
+inputs.exps.exp_y0{1}=[0 0 0 0 0 0 0];        <span class="comment">% Initial conditions</span>
+inputs.exps.t_f{1}=120;                       <span class="comment">% Experiments duration</span>
+
+inputs.exps.n_obs{1}=2;                       <span class="comment">% Number of observables</span>
+inputs.exps.obs_names{1}=char(<span class="string">'Lum'</span>,<span class="string">'mRNAa'</span>); <span class="comment">% Names of the observables</span>
+inputs.exps.obs{1}=char(<span class="string">'Lum=CL_m'</span>,<span class="keyword">...</span><span class="comment">        % Observation function</span>
+                          <span class="string">'mRNAa=CT_m'</span>);
+
+
+</pre>
+
+<h2>Illustrative example: Sustained stimulation<a name="7"></a></h2><pre class="codeinput">inputs.exps.u_interp{1}=<span class="string">'sustained'</span>;          <span class="comment">% Stimuli definition for experiment 1</span>
+inputs.exps.t_con{1}=[0 120];                 <span class="comment">% Input swithching times including:</span>
+                                              <span class="comment">% Initial and final time</span>
+inputs.exps.u{1}=1;                           <span class="comment">% Values of the inputs for exp 1</span>
+
+</pre>
+<img vspace="5" hspace="5" src="doc_AMIGO_stimuli_01.png" alt=""> 
+
+<h2>Illustrative example: Pulse-down stimulation<a name="8"></a></h2><pre>Stimulation starts in its maximum value and follows a pulse-wise profile</pre><pre class="codeinput">inputs.exps.n_s{1}=2;                       <span class="comment">% Experiments duration</span>
+inputs.exps.t_s{1}=[0 120];                       <span class="comment">% Experiments duration</span>
+inputs.exps.u_interp{1}=<span class="string">'pulse-down'</span>;
+inputs.exps.n_pulses{1}=5;                     <span class="comment">% Number of pulses</span>
+inputs.exps.u_min{1}=0;inputs.exps.u_max{1}=1; <span class="comment">% Min and Max stimuli value</span>
+inputs.exps.t_con{1}=0:120/(2*5):120;          <span class="comment">% Stimuli switching times plus initial &amp; final time</span>
+                                               <span class="comment">% Dimension: 2*n_pulses+1;  |-|_|-|_</span>
+
+
+</pre>
+
+<img vspace="5" hspace="5" src="doc_AMIGO_stimuli_02.png" alt=""> 
+
+ <h2>Illustrative example: Pulse-up stimulation<a name="9"></a></h2><pre>Stimulation starts in its minimum value and follows a pulse-wise profile</pre><pre class="codeinput">inputs.exps.u_interp{1}=<span class="string">'pulse-up'</span>;
+inputs.exps.n_pulses{1}=4;                     <span class="comment">% Number of pulses</span>
+inputs.exps.u_min{1}=0;inputs.exps.u_max{1}=1; <span class="comment">% Min and Max stimuli value</span>
+inputs.exps.t_con{1}=0:120/(2*4+1):120;        <span class="comment">% Stimuli switching times plus initial &amp; final time</span>
+                                               <span class="comment">% Dimension: 2*n_pulses+2; _|-|_|-|_</span>
+</pre>
+<img vspace="5" hspace="5" src="doc_AMIGO_stimuli_03.png" alt=""> 
+    
+<h2>Illustrative example: Step wise stimulation<a name="10"></a></h2><pre class="codeinput">inputs.exps.u_interp{1}=<span class="string">'step'</span>;
+inputs.exps.n_steps{1}=5;                      <span class="comment">% Number of steps</span>
+inputs.exps.u{1}=[0 0.5 1 0.5 0]               <span class="comment">% Stimuli value during each step -</span>
+                                               <span class="comment">% Dimension: n_steps</span>
+inputs.exps.t_con{1}=[0 20 40 80 100 120];     <span class="comment">% Stimuli switching times plus initial &amp; final time</span>
+                                               <span class="comment">% Dimension: n_steps+1</span>
+
+</pre>
+
+<img vspace="5" hspace="5" src="doc_AMIGO_stimuli_04.png" alt=""> <h2>Illustrative example: Linear interpolation<a name="11"></a></h2><pre class="codeinput">inputs.exps.u_interp{1}=<span class="string">'linear'</span>;
+inputs.exps.n_linear{1}=7;                     <span class="comment">% Number of interpolating points</span>
+inputs.exps.u{1}=[0 1 0 1 0 1 1];              <span class="comment">% Value of the stimuli in every switching point</span>
+                                               <span class="comment">% Dimension: n_linear</span>
+inputs.exps.t_con{1}=0:20:120;                 <span class="comment">% Stimuli switching times plus initial &amp; final time</span>
+                                               <span class="comment">% Dimension: n_linear</span>
+
+
+</pre>
+<img vspace="5" hspace="5" src="doc_AMIGO_stimuli_05.png" alt=""> 
+<p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% <html>
+% <p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>Stimuli definition</b></p>
+% <hr align="left" width="820">
+% </html>
+
+
+%%
+% AMIGO2 allows to parameterize the stimuli using piecewise low order
+% interpolations. It also considers some usual types of stimulation, such as sustained or pulse-wise.
+% Following possibilities are available:
+%%
+% * Sustained stimulation
+% * Step-wise interpolation
+% * Pulsed: pulse-up and pulse-down stimulation
+% * Linear interpolation
+% 
+%%
+% <<stimuli_interp.png>>
+%%
+% REMARK that linear interporlation can be used to define any of the other
+% approximations.
+
+%% Illustrative example: The circadian clock in Arabidopsis thaliana
+ 
+%%
+%
+% <<circadian.png>>
+%
+%============================
+% RESULTS PATHS RELATED DATA
+%============================
+inputs.pathd.results_folder='arabidopsis';  % Folder to keep results (in Results\) 
+inputs.pathd.short_name='arabidopsis';      % Label to identify figures and reports 
+
+%============================
+% MODEL DEFINITION    
+%============================           
+inputs.model.n_st=7;                        % Number of states                   
+inputs.model.n_par=27;                      % Number of parameters             
+inputs.model.n_stimulus=1;                  % Number of stimuli              
+inputs.model.st_names=char('CL_m','CL_c',...% Names of the states 
+    'CL_n','CT_m','CT_c','CT_n','CP_n');    
+
+inputs.model.par_names=char('n1','n2','g1','g2','m1','m2','m3','m4','m5','m6',...
+    'm7','k1','k2','k3','k4','k5','k6','k7','p1','p2',...
+    'p3','r1','r2','r3','r4','q1','q2');    % Names of the parameters       
+
+inputs.model.stimulus_names=char('light');  % Names of the stimuli               
+inputs.model.eqns=...                       % Model equations               
+    char('dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)',...
+    'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)',...
+    'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)',...
+    'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)',...
+    'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)',...
+    'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)',...
+    'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n');
+  
+inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982... % Nominal parameter
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045...     % values 
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994...
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0]; 
+
+%============================================
+% EXPERIMENTAL SCHEME (SIMULATION CONDITIONS)    
+%============================================
+
+inputs.exps.n_exp=1;                          % Number of experiments               
+ 
+% EXPERIMENT 1
+   
+inputs.exps.exp_y0{1}=[0 0 0 0 0 0 0];        % Initial conditions
+inputs.exps.t_f{1}=120;                       % Experiments duration     
+   
+inputs.exps.n_obs{1}=2;                       % Number of observables            
+inputs.exps.obs_names{1}=char('Lum','mRNAa'); % Names of the observables    
+inputs.exps.obs{1}=char('Lum=CL_m',...        % Observation function
+                          'mRNAa=CT_m');         
+          
+AMIGO_Prep(inputs);
+
+%% Illustrative example: Sustained stimulation 
+
+inputs.exps.u_interp{1}='sustained';          % Stimuli definition for experiment 1
+inputs.exps.t_con{1}=[0 120];                 % Input swithching times including: 
+                                              % Initial and final time             
+inputs.exps.u{1}=1;                           % Values of the inputs for exp 1   
+
+
+AMIGO_SObs(inputs);
+
+
+%% Illustrative example: Pulse-down stimulation 
+%  Stimulation starts in its maximum value and follows a pulse-wise profile
+inputs.exps.n_s{1}=2;                       % Experiments duration 
+inputs.exps.t_s{1}=[0 120];                       % Experiments duration
+inputs.exps.u_interp{1}='pulse-down';                 
+inputs.exps.n_pulses{1}=5;                     % Number of pulses            
+inputs.exps.u_min{1}=0;inputs.exps.u_max{1}=1; % Min and Max stimuli value       
+inputs.exps.t_con{1}=0:120/(2*5):120;          % Stimuli switching times plus initial & final time
+                                               % Dimension: 2*n_pulses+1;  |-|_|-|_
+                                              
+
+AMIGO_SObs(inputs);
+
+%% Illustrative example: Pulse-up stimulation 
+%  Stimulation starts in its minimum value and follows a pulse-wise profile
+inputs.exps.u_interp{1}='pulse-up';                 
+inputs.exps.n_pulses{1}=4;                     % Number of pulses   
+inputs.exps.u_min{1}=0;inputs.exps.u_max{1}=1; % Min and Max stimuli value      
+inputs.exps.t_con{1}=0:120/(2*4+1):120;        % Stimuli switching times plus initial & final time
+                                               % Dimension: 2*n_pulses+2; _|-|_|-|_
+
+AMIGO_SObs(inputs);
+
+
+%% Illustrative example: Step wise stimulation
+inputs.exps.u_interp{1}='step';                 
+inputs.exps.n_steps{1}=5;                      % Number of steps
+inputs.exps.u{1}=[0 0.5 1 0.5 0]               % Stimuli value during each step - 
+                                               % Dimension: n_steps
+inputs.exps.t_con{1}=[0 20 40 80 100 120];     % Stimuli switching times plus initial & final time   
+                                               % Dimension: n_steps+1
+
+
+AMIGO_SObs(inputs);
+
+%% Illustrative example: Linear interpolation
+
+inputs.exps.u_interp{1}='linear';                                           
+inputs.exps.n_linear{1}=7;                     % Number of interpolating points
+inputs.exps.u{1}=[0 1 0 1 0 1 1];              % Value of the stimuli in every switching point
+                                               % Dimension: n_linear
+inputs.exps.t_con{1}=0:20:120;                 % Stimuli switching times plus initial & final time   
+                                               % Dimension: n_linear
+
+
+AMIGO_SObs(inputs);
+
+%AMIGO_htmldoc_inputs(inputs,fullfile(pwd,'html','stimex1.html'));
+
+
+
+
+##### SOURCE END #####
+--></body></html>

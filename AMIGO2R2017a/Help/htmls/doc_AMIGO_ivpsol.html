@@ -1,0 +1,246 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>doc_AMIGO_ivpsol</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-09-30"><meta name="DC.source" content="doc_AMIGO_ivpsol.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #007946; 
+  font-size: x-large;
+}
+
+h1b {
+  color: #255DA5; 
+  font-size: x-large;
+}
+
+li {
+  color: #255DA5; /* bullet color */
+}
+li {
+  color: #255DA5; /* bullet color */
+}
+li span {
+  color: black; /* text color */
+}
+
+h2 {
+  color: #255DA5;
+  font-size: large;
+}
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 820px;
+  /* Hack for IE6 */
+  width: auto !important; width: 820px;
+  text-align: justify;
+}
+
+pre.codeinput {
+  background: #E9F4F6;
+  padding: 10px;
+  width: 820px;
+  text-align: justify;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+   width: 820px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><p><img vspace="5" hspace="5" src="logo_AMIGO2_small.png" alt=""> </p><p>
+<p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>Initial value problem solvers</b></p>
+<hr align="left" width="820">
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">AMIGO2 Numerical solvers for initial value problems and sensitivity calculations</a></li><li><a href="#2">IVP solver settings</a></li><li><a href="#4">Sensitivity calculation</a></li><li><a href="#5">Enhancements</a></li></ul></div><h2>AMIGO2 Numerical solvers for initial value problems and sensitivity calculations<a name="1"></a></h2><p>AMIGO2 offers a suite of IVP solvers so as to handle different problems: non-stiff, stiff, sparse. Explicit and implicit Runge-Kutta, Adams and BDF methods have been incorporated together with methods to compute sensitivities.</p><p>AMIGO2 can generate MATLAB models to be solved by MATLAB solvers (ode15s, ode45, ode113).</p><p>ENHANCED MODE OF OPERATION can generate FORTRAN or C models which are then interfaced  to state-of-the-art FORTRAN or C ODE solvers. This increases efficiency of simulation and thus optimization.</p><p>The following table summarizes available methods:</p><p>
+<style type="text/css">
+.tftable {font-size:12px;width:100%%;border-width: 1px;border-color: #255DA5;border-collapse: collapse;}
+.tftable th {background-color:#8F91C7;font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;text-align:left;color:white;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;background-color:#E6FAE6;}
+.tftable tr:hover {background-color:#E6FAE6;}
+</style>
+<table class="tftable" border="1">
+  <tr>  <th>  </th>                               <th>Algorithm</th>  <th>Implementation</th>  <th>AMIGO model</th>   <th>Availability</th>    <th>Description</th>  </tr>
+  <tr>  <th rowspan="3">Non-Stiff models</th>     <td>RKF45</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Runge-Kutta-Fehlberg(4,5) method. Fehlberg, NASA tr r-315</td> </tr>
+  <tr>                                            <td>ode45</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Runge-Kutta-Fehlberg(4,5) method. MATLAB implementation</td> </tr>
+  <tr>                                            <td>ode113</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Adams-Bashforth-Moulton(1,12) method. Shampine & Reichelt, SIAM J.  Sci. Comp. 18-1, (1997). MATLAB implementation</td> </tr>
+  <tr>  <th rowspan="4">Stiff models</th>        <td>Radau5</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Implicit Runge-Kutta method.Hairer & Wanner, Springer Series Comp. Math 14, (1996)</td> </tr>
+  <tr>                                           <td>LSODA</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>ADAMS with automatic switch to BDF, Hindmarsh, Sci. Comp. 55-64, (1983); Petzold, SIAM J. Sci. Stat. Comp. 4:136-148 (1983)</td> </tr>
+  <tr>                                            <td>ode15s</td>      <td>Matlab</td>         <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Klopfenstein-Shampine BDF. Shampine & Reichelt, SIAM J. Sci. Comp. 18-1, (1997), MATLAB implementation</td> </tr>
+  <tr>                                            <td>CVODES</td>      <td>C*</td>         <td>'charmodelC'</td>   <td>32bit Windows, 64bit Linux</td>    <td>     A. C. Hindmarsh et al. SUNDIALS: Suite of Nonlinear and Differential/Algebraic Equation Solvers, ACM Transactions on Mathematical Software, 31(3), pp. 363-396, 2005 </td></tr>
+  <tr>  <th >Sparse, Stiff models</th>        <td>LSODES</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>ADAMS with automatic switch to BDF, Hindmarsh, Sci. Comp. 55-64, (1983); Eisenstadt et. at. Yale Sparse Matrix package I&II Int. J. Num. Meth. Eng., 18 (1982)</td> </tr>
+</table>
+</p><p>*Link for system requirement for MEX-C and MEX-Fortran <a href="missing">missing</a></p><h2>IVP solver settings<a name="2"></a></h2><p>The algorithms can be chosen by modifying the field</p><pre class="codeinput">inputs.ivpsol.ivpsolver = <span class="string">'cvodes'</span>;
+</pre><p>For all IVP solver the <b>relative</b> and <b>absolute</b> tolerances can be adjusted by</p><pre class="codeinput">inputs.ivpsol.atol = 1e-7;
+inputs.ivpsol.rtol = 1e-5;
+</pre><h2>Sensitivity calculation<a name="4"></a></h2><p>AMIGO capable to compute the sensitivities of model states and outputs with respect to the parameters and initial conditions.</p><p>Sensitivity calculations are used in</p><div><ul><li>local and global ranking of the parameters</li><li>gradient based optimizations</li><li>the computation of confidence interals of the estimated parameters.</li></ul></div><p>The sensitivities are computed in either a finite difference based scheme or by direct computation solving the forward sensitivity equations corresponding to the ODEs.</p><p>The following table summarizes the implemented methods for sensitivity calculations:</p><p>
+<style type="text/css">
+.tftable {font-size:12px;width:100%%;border-width: 1px;border-color: #255DA5;border-collapse: collapse;}
+.tftable th {background-color:#8F91C7;font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;text-align:left;color:white;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;background-color:#E6FAE6;}
+.tftable tr:hover {background-color:#E6FAE6;}
+</style>
+<table class="tftable" border="1">
+  <tr>  <th>  </th>                               <th>Algorithm</th>  <th>Implementation</th>  <th>AMIGO model</th>   <th>Availability</th>    <th>Description</th>  </tr>
+  <tr>  <th rowspan="3">Finite difference method</th>     <td>fdsens2</td>      <td>Matlab</td>         <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>FD method using the IVP solver specified.</td> </tr>
+  <tr>                                            <td>fdsens5</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>FD method using the IVP solver specified and 5-points scheme.</td> </tr>
+  <tr>                                            <td>sensmat</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td> ode15s based FD method, modification of code by Garcia Mollá & Gómez Padilla (2002)</td> </tr>
+  <tr>  <th rowspan="4">Direct computation</th>        <td>CVODES</td>      <td>C*</td>         <td>'charmodelC'</td>   <td>32bit Windows, 64bit Linux</td>    <td> A. C. Hindmarsh et al. SUNDIALS: Suite of Nonlinear and Differential/Algebraic Equation Solvers, ACM Transactions on Mathematical Software, 31(3), pp. 363-396, 2005</td> </tr>
+  <tr>                                           <td>ODESSA</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>BDF, Leis & Kramer, Comp & Chem. Eng. 9:93-96 (1985)</td> </tr>
+</table>
+</p><p>*Link for system requirement for MEX-C and MEX-Fortran <a href="missing">missing</a></p><p>The sensitivity solver can be chosen by modifying</p><pre class="codeinput">inputs.ivpsol.senssolver = <span class="string">'cvodes'</span>;
+</pre><h2>Enhancements<a name="5"></a></h2><p>The Jacobain of the dynamic equations are symbolically computed by setting</p><pre class="codeinput">inputs.model.AMIGOjac = 1;
+</pre><p>The symbolic computation of the forward sensitivity equations can be turned-on by</p><pre class="codeinput">inputs.model.AMIGOsensrhs = 1;
+</pre><p>Note that:</p><div><ul><li>this options work only with <i>charmodelC</i> AMIGO model type and with  <i>CVODES</i> IVP solver.</li><li>the computations requires the MATLAB Symbolic Toolbox</li></ul></div><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% <<logo_AMIGO2_small.png>>
+%
+% <html>
+% <p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>Initial value problem solvers</b></p>
+% <hr align="left" width="820">
+% </html>
+
+%% AMIGO2 Numerical solvers for initial value problems and sensitivity calculations 
+%
+%
+% AMIGO2 offers a suite of IVP solvers so as to handle different problems:
+% non-stiff, stiff, sparse. Explicit and implicit Runge-Kutta, Adams and BDF methods 
+% have been incorporated together with methods to compute sensitivities.
+% 
+% AMIGO2 can generate MATLAB models to be solved by MATLAB solvers (ode15s,
+% ode45, ode113). 
+%
+% ENHANCED MODE OF OPERATION can generate FORTRAN or C models which are
+% then interfaced  to state-of-the-art FORTRAN or C ODE solvers. This increases efficiency of 
+% simulation and thus optimization.
+% 
+% The following table summarizes available methods:
+%
+% <html>
+% <style type="text/css">
+% .tftable {font-size:12px;width:100%%;border-width: 1px;border-color: #255DA5;border-collapse: collapse;}
+% .tftable th {background-color:#8F91C7;font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;text-align:left;color:white;}
+% .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;background-color:#E6FAE6;}
+% .tftable tr:hover {background-color:#E6FAE6;}
+% </style>
+% <table class="tftable" border="1">
+%   <tr>  <th>  </th>                               <th>Algorithm</th>  <th>Implementation</th>  <th>AMIGO model</th>   <th>Availability</th>    <th>Description</th>  </tr>
+%   <tr>  <th rowspan="3">Non-Stiff models</th>     <td>RKF45</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Runge-Kutta-Fehlberg(4,5) method. Fehlberg, NASA tr r-315</td> </tr>
+%   <tr>                                            <td>ode45</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Runge-Kutta-Fehlberg(4,5) method. MATLAB implementation</td> </tr>
+%   <tr>                                            <td>ode113</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Adams-Bashforth-Moulton(1,12) method. Shampine & Reichelt, SIAM J.  Sci. Comp. 18-1, (1997). MATLAB implementation</td> </tr>
+%   <tr>  <th rowspan="4">Stiff models</th>        <td>Radau5</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Implicit Runge-Kutta method.Hairer & Wanner, Springer Series Comp. Math 14, (1996)</td> </tr>
+%   <tr>                                           <td>LSODA</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>ADAMS with automatic switch to BDF, Hindmarsh, Sci. Comp. 55-64, (1983); Petzold, SIAM J. Sci. Stat. Comp. 4:136-148 (1983)</td> </tr>
+%   <tr>                                            <td>ode15s</td>      <td>Matlab</td>         <td>'charmodelM','matlabmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>Klopfenstein-Shampine BDF. Shampine & Reichelt, SIAM J. Sci. Comp. 18-1, (1997), MATLAB implementation</td> </tr>
+%   <tr>                                            <td>CVODES</td>      <td>C*</td>         <td>'charmodelC'</td>   <td>32bit Windows, 64bit Linux</td>    <td>     A. C. Hindmarsh et al. SUNDIALS: Suite of Nonlinear and Differential/Algebraic Equation Solvers, ACM Transactions on Mathematical Software, 31(3), pp. 363-396, 2005 </td></tr>
+%   <tr>  <th >Sparse, Stiff models</th>        <td>LSODES</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>ADAMS with automatic switch to BDF, Hindmarsh, Sci. Comp. 55-64, (1983); Eisenstadt et. at. Yale Sparse Matrix package I&II Int. J. Num. Meth. Eng., 18 (1982)</td> </tr>
+% </table>
+% </html>
+% 
+% *Link for system requirement for MEX-C and MEX-Fortran <missing missing>
+
+%%% IVP solver settings
+% The algorithms can be chosen by modifying the field
+inputs.ivpsol.ivpsolver = 'cvodes';
+
+%%
+% For all IVP solver the *relative* and *absolute* tolerances can be
+% adjusted by
+inputs.ivpsol.atol = 1e-7;
+inputs.ivpsol.rtol = 1e-5;
+
+
+
+%% Sensitivity calculation
+% AMIGO capable to compute the sensitivities of model states and outputs
+% with respect to the parameters and initial conditions.
+%
+% Sensitivity calculations are used in
+%
+% * local and global ranking of the parameters
+% * gradient based optimizations
+% * the computation of confidence interals of the estimated parameters.
+%
+% The sensitivities are computed in either a finite difference based scheme
+% or by direct computation solving the forward sensitivity equations
+% corresponding to the ODEs.
+%
+% The following table summarizes the implemented methods for sensitivity
+% calculations:
+%
+% <html>
+% <style type="text/css">
+% .tftable {font-size:12px;width:100%%;border-width: 1px;border-color: #255DA5;border-collapse: collapse;}
+% .tftable th {background-color:#8F91C7;font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;text-align:left;color:white;}
+% .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #255DA5;background-color:#E6FAE6;}
+% .tftable tr:hover {background-color:#E6FAE6;}
+% </style>
+% <table class="tftable" border="1">
+%   <tr>  <th>  </th>                               <th>Algorithm</th>  <th>Implementation</th>  <th>AMIGO model</th>   <th>Availability</th>    <th>Description</th>  </tr>
+%   <tr>  <th rowspan="3">Finite difference method</th>     <td>fdsens2</td>      <td>Matlab</td>         <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>FD method using the IVP solver specified.</td> </tr>
+%   <tr>                                            <td>fdsens5</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>FD method using the IVP solver specified and 5-points scheme.</td> </tr>
+%   <tr>                                            <td>sensmat</td>      <td>Matlab</td>          <td>'charmodelM','matlabmodel','sbmlmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td> ode15s based FD method, modification of code by Garcia Mollá & Gómez Padilla (2002)</td> </tr>
+%   <tr>  <th rowspan="4">Direct computation</th>        <td>CVODES</td>      <td>C*</td>         <td>'charmodelC'</td>   <td>32bit Windows, 64bit Linux</td>    <td> A. C. Hindmarsh et al. SUNDIALS: Suite of Nonlinear and Differential/Algebraic Equation Solvers, ACM Transactions on Mathematical Software, 31(3), pp. 363-396, 2005</td> </tr>
+%   <tr>                                           <td>ODESSA</td>      <td>Fortran*</td>         <td>'charmodelF', 'fortranmodel'</td>   <td>32bit Windows, 64bit Linux</td>    <td>BDF, Leis & Kramer, Comp & Chem. Eng. 9:93-96 (1985)</td> </tr>
+% </table>
+% </html>
+% 
+% *Link for system requirement for MEX-C and MEX-Fortran <missing missing>
+%
+% The sensitivity solver can be chosen by modifying
+inputs.ivpsol.senssolver = 'cvodes';
+
+%% Enhancements
+% The Jacobain of the dynamic equations are symbolically computed by
+% setting
+inputs.model.AMIGOjac = 1;
+
+%%
+% The symbolic computation of the forward sensitivity equations can be
+% turned-on by
+inputs.model.AMIGOsensrhs = 1;
+
+%%
+% Note that:
+%
+% * this options work only with _charmodelC_ AMIGO model type and with  _CVODES_ IVP solver.
+% * the computations requires the MATLAB Symbolic Toolbox 
+%
+
+
+
+
+##### SOURCE END #####
+--></body></html>

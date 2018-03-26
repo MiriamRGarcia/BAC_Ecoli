@@ -1,0 +1,396 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>doc_AMIGO_SModel</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-27"><meta name="DC.source" content="doc_AMIGO_SModel.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #007946; 
+  font-size: x-large;
+}
+
+h1b {
+  color: #255DA5; 
+  font-size: x-large;
+}
+
+li {
+  color: #255DA5; /* bullet color */
+}
+li {
+  color: #255DA5; /* bullet color */
+}
+li span {
+  color: black; /* text color */
+}
+
+h2 {
+  color: #255DA5;
+  font-size: large;
+}
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 820px;
+  /* Hack for IE6 */
+  width: auto !important; width: 820px;
+  text-align: justify;
+}
+
+pre.codeinput {
+  background: #E9F4F6;
+  padding: 10px;
+  width: 820px;
+  text-align: justify;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+   width: 820px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><p><img vspace="5" hspace="5" src="logo_AMIGO2_small.png" alt=""> </p><p>
+<p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>AMIGO_SModel</b></p>
+<hr align="left" width="820">
+</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Task description</a></li><li><a href="#3">Call AMIGO_SModel from command line</a></li><li><a href="#5">Example</a></li><li><a href="#10">See also</a></li><li><a href="#12">References</a></li></ul></div><h2>Task description<a name="1"></a></h2><p>
+<div style="background-color: #E6FAE6; margin-left: 1px; margin-right: 5px; padding-bottom: 1px; padding-left: 8px; padding-right: 8px; padding-top: 2px; line-height: 1.25">
+<dl>Solves model under a given experimental scheme and plots states evolution vs time. Remark that
+inputs.model.par and inputs.exps.exp_y0{iexp} are used
+(by default) for simulation. Alternatively, inputs.PEsol.global_theta_guess, inputs.PEsol.global_theta_y0_guess, inputs.PEsol.local_theta_guess{iexp} and
+inputs.PEsol.local_theta_y0_guess{iexp}, will be used, if supplied by the
+user.  </dl>
+<dl> </dl>
+<dl> AMIGO2 allows to improve efficiency of simulation by generating Frotran or C models. Several initial value problem (IVP) solvers are then
+provided to solve stiff, non-stiff or sparse systems. See <doc_AMIGO_ivpsol.html IVP solvers in Fortran and C> for details. The user can also introduce
+blackbox models, i.e. codes that solve specific models that have been
+implemented outside AMIGO2 (See the examples in Examples folder or AMIGO2
+in practice).</dl>
+<dl><b>Options:</b></dl>
+<dl style="padding-left: 18px;"> - 'run_identifier' to keep different
+folders for different runs, this avoids overwriting</dl></div>
+</p><h2>Call AMIGO_SModel from command line<a name="3"></a></h2><p>It is recommended to keep all inputs in a <b>'problem_file'.m</b>. SObs task can then be called in two different ways:</p><p>1. Using the <b>inputs structure</b>:</p><pre>  &gt; problem_file</pre><pre>  &gt; AMIGO_SModel(inputs)</pre><p>2. Using the <b>input file</b>:</p><pre>  &gt; AMIGO_SModel('problem_file')</pre><pre>  &gt; AMIGO_SModel('problem_file','run_ident')</pre><h2>Example<a name="5"></a></h2><pre class="codeinput"><span class="comment">% TITLE: The circadian clock in Arabidopsis thaliana</span>
+</pre><p><img vspace="5" hspace="5" src="circadian.png" alt=""> </p><pre class="codeinput"><span class="comment">%============================</span>
+<span class="comment">% RESULTS PATHS RELATED DATA</span>
+<span class="comment">%============================</span>
+inputs.pathd.results_folder=<span class="string">'arabidopsis'</span>;  <span class="comment">% Folder to keep results (in Results\)</span>
+inputs.pathd.short_name=<span class="string">'arabidopsis'</span>;      <span class="comment">% Label to identify figures and reports</span>
+
+
+<span class="comment">%============================</span>
+<span class="comment">% MODEL DEFINITION</span>
+<span class="comment">%============================</span>
+inputs.model.n_st=7;                        <span class="comment">% Number of states</span>
+inputs.model.n_par=27;                      <span class="comment">% Number of parameters</span>
+inputs.model.n_stimulus=1;                  <span class="comment">% Number of stimuli</span>
+inputs.model.st_names=char(<span class="string">'CL_m'</span>,<span class="string">'CL_c'</span>,<span class="keyword">...</span><span class="comment">% Names of the states</span>
+    <span class="string">'CL_n'</span>,<span class="string">'CT_m'</span>,<span class="string">'CT_c'</span>,<span class="string">'CT_n'</span>,<span class="string">'CP_n'</span>);
+
+inputs.model.par_names=char(<span class="string">'n1'</span>,<span class="string">'n2'</span>,<span class="string">'g1'</span>,<span class="string">'g2'</span>,<span class="string">'m1'</span>,<span class="string">'m2'</span>,<span class="string">'m3'</span>,<span class="string">'m4'</span>,<span class="string">'m5'</span>,<span class="string">'m6'</span>,<span class="keyword">...</span>
+    <span class="string">'m7'</span>,<span class="string">'k1'</span>,<span class="string">'k2'</span>,<span class="string">'k3'</span>,<span class="string">'k4'</span>,<span class="string">'k5'</span>,<span class="string">'k6'</span>,<span class="string">'k7'</span>,<span class="string">'p1'</span>,<span class="string">'p2'</span>,<span class="keyword">...</span>
+    <span class="string">'p3'</span>,<span class="string">'r1'</span>,<span class="string">'r2'</span>,<span class="string">'r3'</span>,<span class="string">'r4'</span>,<span class="string">'q1'</span>,<span class="string">'q2'</span>);    <span class="comment">% Names of the parameters</span>
+
+inputs.model.stimulus_names=char(<span class="string">'light'</span>);  <span class="comment">% Names of the stimuli</span>
+inputs.model.eqns=<span class="keyword">...</span><span class="comment">                       % Model equations</span>
+    char(<span class="string">'dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)'</span>,<span class="keyword">...</span>
+    <span class="string">'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n'</span>);
+</pre><p>IMPORTANT:</p><p>User may select any customised name but: n, t, u, y, ydot, par, tlast, told, pend and v which are reserved words</p><pre class="codeinput">inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982<span class="keyword">...</span><span class="comment"> % Nominal parameter</span>
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045<span class="keyword">...</span><span class="comment">     % values</span>
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994<span class="keyword">...</span>
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0];
+
+<span class="comment">%============================================</span>
+<span class="comment">% EXPERIMENTAL SCHEME (SIMULATION CONDITIONS)</span>
+<span class="comment">%============================================</span>
+
+inputs.exps.n_exp=1;                    <span class="comment">% Number of experiments</span>
+inputs.exps.exp_y0{1}=[0 0 0 0 0 0 0];  <span class="comment">% Initial conditions</span>
+inputs.exps.t_f{1}=120;                 <span class="comment">% Experiment duration</span>
+inputs.exps.u_interp{1}=<span class="string">'sustained'</span>;    <span class="comment">% Stimuli definition for experiment 1:</span>
+                                        <span class="comment">% OPTIONS:u_interp: 'sustained' |'step'|</span>
+                                        <span class="comment">%'linear'(default)|'pulse-up'|'pulse-down'</span>
+                                        <span class="comment">% (see Figure)</span>
+inputs.exps.t_con{1}=[0 120];           <span class="comment">% Input swithching times including:</span>
+                                        <span class="comment">% Initial and final time</span>
+inputs.exps.u{1}=[1];                   <span class="comment">% Values of the inputs</span>
+</pre><p><img vspace="5" hspace="5" src="stimuli_interp.png" alt=""> </p><p>More information regarding the inputs used in this example can be found <a href="smodelex1.html">here</a>.</p><pre class="codeinput"><span class="comment">%================================</span>
+<span class="comment">% CALL AMIGO2 from COMMAND LINE</span>
+<span class="comment">%================================</span>
+<span class="comment">% It is recommended to keep all inputs in a 'problem_file'.m.</span>
+<span class="comment">% AMIGO2 SModel task can be called as follows:</span>
+<span class="comment">% AMIGO_SModel('problem_file','run_ident') or AMIGO_SModel(inputs)</span>
+
+AMIGO_Prep(inputs);           <span class="comment">% To preprocess the model &amp; generate Fortran, C or MATLAB code</span>
+AMIGO_SModel(inputs);         <span class="comment">% To perform task SModel</span>
+</pre><pre class="codeoutput">
+
+*********************************** 
+     AMIGO2, Copyright @CSIC      
+     AMIGO2_R1_2015 [Oct 2015]      
+*********************************** 
+
+*Date: 27-Oct-2015
+
+------&gt;Pre processing....this may take a few seconds.
+
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+By default ode15s will be used.
+By default sensmat will be used.
+
+
+------&gt; Generating Matlab file...
+
+		D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\arabidopsis\fcn_arabidopsis.m
+
+
+------&gt;Files generated....
+
+
+*********************************** 
+     AMIGO2, Copyright @CSIC      
+     AMIGO2_R1_2015 [Oct 2015]      
+*********************************** 
+
+*Date: 27-Oct-2015
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+By default ode15s will be used.
+By default sensmat will be used.
+
+
+------&gt; WARNING message
+
+		 You have not provided neither the number nor the sampling times.
+ 		 Continuous sampling will be assumed for experiment 1
+		 Note however that you may modify your input file by adding
+		 inputs.exps.n_s{iexp} and inputs.exps.t_s{iexp}
+Warning: Directory already exists. 
+
+
+
+------&gt;Performing simulation for the given set of parameters and initial conditions
+
+
+-------------------------------
+Initial value problem related active settings
+-------------------------------
+
+ivpsolver: ode15s
+RelTol: 1e-005
+AbsTol: 1e-007
+Backward Differentiation (BDF): on
+MATLAB model file: fcn_arabidopsis
+
+
+------&gt;Plotting results....
+
+
+
+------&gt;Results (report and struct_results.mat) and plots were kept in the directory:
+
+		Results\arabidopsis\SModel_arabidopsis_run1
+		Click &lt;a href="matlab: cd('D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\arabidopsis\SModel_arabidopsis_run1')"&gt;here&lt;/a&gt; to go to the results folder or &lt;a href="matlab: load('D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\arabidopsis\SModel_arabidopsis_run1\strreport_arabidopsis_run1.mat')"&gt;here&lt;/a&gt; to load the results.
+</pre><img vspace="5" hspace="5" src="doc_AMIGO_SModel_01.png" alt=""> <h2>See also<a name="10"></a></h2><div><ul><li><a href="doc_AMIGO_ivpsol.html">IVP solvers in AMIGO2</a></li><li><a href="doc_AMIGO_Input.html">How to input a problem in AMIGO2</a></li></ul></div><h2>References<a name="12"></a></h2><p>Model was taken from:</p><p>Locke J.C.W; A.J. Millar; M.S. Turner. Modelling genetic networks with noisy and varied experimental data: the circadian clock in Arabidopsis thaliana. J Theor Biol,2005, 234:383-393.</p><pre class="codeinput">AMIGO_htmldoc_inputs(inputs,fullfile(pwd,<span class="string">'html'</span>,<span class="string">'smodelex1.html'</span>));
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+% <<logo_AMIGO2_small.png>>
+%
+% <html>
+% <p style="color:#007946;font-size:18pt;text-align:right; margin-top: 1px; margin-bottom: 1px;"> <b>AMIGO_SModel</b></p>
+% <hr align="left" width="820">
+% </html>
+
+%% Task description
+
+%%
+% <html>
+% <div style="background-color: #E6FAE6; margin-left: 1px; margin-right: 5px; padding-bottom: 1px; padding-left: 8px; padding-right: 8px; padding-top: 2px; line-height: 1.25">
+% <dl>Solves model under a given experimental scheme and plots states evolution vs time. Remark that    
+% inputs.model.par and inputs.exps.exp_y0{iexp} are used
+% (by default) for simulation. Alternatively, inputs.PEsol.global_theta_guess, inputs.PEsol.global_theta_y0_guess, inputs.PEsol.local_theta_guess{iexp} and
+% inputs.PEsol.local_theta_y0_guess{iexp}, will be used, if supplied by the
+% user.  </dl>
+% <dl> </dl>
+% <dl> AMIGO2 allows to improve efficiency of simulation by generating Frotran or C models. Several initial value problem (IVP) solvers are then 
+% provided to solve stiff, non-stiff or sparse systems. See <doc_AMIGO_ivpsol.html IVP solvers in Fortran and C> for details. The user can also introduce
+% blackbox models, i.e. codes that solve specific models that have been
+% implemented outside AMIGO2 (See the examples in Examples folder or AMIGO2
+% in practice).</dl>
+% <dl><b>Options:</b></dl>
+% <dl style="padding-left: 18px;"> - 'run_identifier' to keep different
+% folders for different runs, this avoids overwriting</dl></div>
+% </html>
+% 
+
+%% Call AMIGO_SModel from command line
+
+%%
+% It is recommended to keep all inputs in a *'problem_file'.m*. SObs task can then be called in two different ways:
+%
+% 1. Using the *inputs structure*:
+%
+%    > problem_file   
+%
+%    > AMIGO_SModel(inputs)     
+%
+% 2. Using the *input file*:
+%
+%    > AMIGO_SModel('problem_file') 
+%
+%    > AMIGO_SModel('problem_file','run_ident')  
+%
+
+
+%% Example
+
+% TITLE: The circadian clock in Arabidopsis thaliana
+%%
+%
+% <<circadian.png>>
+%
+   
+%============================
+% RESULTS PATHS RELATED DATA
+%============================
+inputs.pathd.results_folder='arabidopsis';  % Folder to keep results (in Results\) 
+inputs.pathd.short_name='arabidopsis';      % Label to identify figures and reports 
+
+
+%============================
+% MODEL DEFINITION    
+%============================           
+inputs.model.n_st=7;                        % Number of states                      
+inputs.model.n_par=27;                      % Number of parameters            
+inputs.model.n_stimulus=1;                  % Number of stimuli              
+inputs.model.st_names=char('CL_m','CL_c',...% Names of the states 
+    'CL_n','CT_m','CT_c','CT_n','CP_n');    
+
+inputs.model.par_names=char('n1','n2','g1','g2','m1','m2','m3','m4','m5','m6',...
+    'm7','k1','k2','k3','k4','k5','k6','k7','p1','p2',...
+    'p3','r1','r2','r3','r4','q1','q2');    % Names of the parameters         
+
+inputs.model.stimulus_names=char('light');  % Names of the stimuli             
+inputs.model.eqns=...                       % Model equations          
+    char('dCL_m=q1*CP_n*light+n1*CT_n/(g1+CT_n)-m1*CL_m/(k1+CL_m)',...
+    'dCL_c=p1*CL_m-r1*CL_c+r2*CL_n-m2*CL_c/(k2+CL_c)',...
+    'dCL_n=r1*CL_c-r2*CL_n-m3*CL_n/(k3+CL_n)',...
+    'dCT_m=n2*g2^2/(g2^2+CL_n^2)-m4*CT_m/(k4+CT_m)',...
+    'dCT_c=p2*CT_m-r3*CT_c+r4*CT_n-m5*CT_c/(k5+CT_c)',...
+    'dCT_n=r3*CT_c-r4*CT_n-m6*CT_n/(k6+CT_n)',...
+    'dCP_n=(1-light)*p3-m7*CP_n/(k7+CP_n)-q2*light*CP_n');
+
+    %% 
+    % IMPORTANT:
+    %
+    % User may select any customised name but: n, t, u, y, ydot, par, tlast,
+    % told, pend and v which are reserved words
+
+inputs.model.par=[7.5038 0.6801 1.4992 3.0412 10.0982... % Nominal parameter
+    1.9685 3.7511 2.3422 7.2482 1.8981 1.2 3.8045...     % values 
+    5.3087 4.1946 2.5356 1.4420 4.8600 1.2 2.1994...
+    9.4440 0.5 0.2817 0.7676 0.4364 7.3021 4.5703 1.0]; 
+
+%============================================
+% EXPERIMENTAL SCHEME (SIMULATION CONDITIONS)    
+%============================================
+
+inputs.exps.n_exp=1;                    % Number of experiments
+inputs.exps.exp_y0{1}=[0 0 0 0 0 0 0];  % Initial conditions
+inputs.exps.t_f{1}=120;                 % Experiment duration   
+inputs.exps.u_interp{1}='sustained';    % Stimuli definition for experiment 1:
+                                        % OPTIONS:u_interp: 'sustained' |'step'|
+                                        %'linear'(default)|'pulse-up'|'pulse-down' 
+                                        % (see Figure) 
+inputs.exps.t_con{1}=[0 120];           % Input swithching times including: 
+                                        % Initial and final time    
+inputs.exps.u{1}=[1];                   % Values of the inputs 
+
+%%
+%
+% <<stimuli_interp.png>>
+%
+
+%%
+% More information regarding the inputs used in this example can be
+% found <smodelex1.html here>. 
+
+%================================
+% CALL AMIGO2 from COMMAND LINE    
+%================================
+% It is recommended to keep all inputs in a 'problem_file'.m.  
+% AMIGO2 SModel task can be called as follows:
+% AMIGO_SModel('problem_file','run_ident') or AMIGO_SModel(inputs)
+
+AMIGO_Prep(inputs);           % To preprocess the model & generate Fortran, C or MATLAB code 
+AMIGO_SModel(inputs);         % To perform task SModel
+
+
+
+%% See also
+
+    %%
+    % * <doc_AMIGO_ivpsol.html IVP solvers in AMIGO2>
+    % * <doc_AMIGO_Input.html How to input a problem in AMIGO2>
+    %
+    
+
+%% References
+
+%%
+% Model was taken from:
+%
+% Locke J.C.W; A.J. Millar; M.S. Turner. Modelling genetic networks with noisy and varied 
+% experimental data: the circadian clock in Arabidopsis thaliana. J Theor Biol,2005, 234:383-393. 
+%
+
+AMIGO_htmldoc_inputs(inputs,fullfile(pwd,'html','smodelex1.html'));
+
+   
+##### SOURCE END #####
+--></body></html>

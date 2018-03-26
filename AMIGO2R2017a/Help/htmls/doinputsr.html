@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head> <title>Comments on the inputs</title></head>
+<body>
+<style type="text/css">
+.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
+.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
+.tftable tr {background-color:#d4e3e5;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+.tftable tr:hover {background-color:#ffffff;}
+</style>
+<h1>Inputs</h1><table class="tftable" border="1">
+<tr>  <th>Field</th>  <th> Description</th> </tr>
+<tr><th colspan = "2">inputs</th></tr>
+<tr><th colspan = "2">inputs.DOsol</th></tr>
+<tr>	<td>inputs.DOsol.DOcost	<td>definition of the cost function #DO	</tr>
+<tr>	<td>inputs.DOsol.DOcost_type	<td>type of cost function min/max #DO	</tr>
+<tr>	<td>inputs.DOsol.n_steps	<td>number of steps for step and stepf interpolation #DO	</tr>
+<tr>	<td>inputs.DOsol.t_con	<td>vector of stimuli switching times #DO	</tr>
+<tr>	<td>inputs.DOsol.tf_guess	<td>final time - guess #DO	</tr>
+<tr>	<td>inputs.DOsol.tf_type	<td>type of process duration: fixed/free #DO	</tr>
+<tr>	<td>inputs.DOsol.u_guess	<td>initital guess for the stimuli #DO	</tr>
+<tr>	<td>inputs.DOsol.u_interp	<td>stimuli interpolation type #DO	</tr>
+<tr>	<td>inputs.DOsol.u_max	<td>upper bound for the stimuli #DO	</tr>
+<tr>	<td>inputs.DOsol.u_min	<td>lower bound for the stimuli #DO	</tr>
+<tr>	<td>inputs.DOsol.y0	<td>initial conditions for simulation #DO	</tr>
+<tr><th colspan = "2">inputs.ivpsol</th></tr>
+<tr>	<td>inputs.ivpsol.atol	<td>Default IVP solver integration tolerances	</tr>
+<tr>	<td>inputs.ivpsol.ivpsolver	<td>solver algorithm	</tr>
+<tr>	<td>inputs.ivpsol.rtol	<td>Default IVP solver integration tolerances	</tr>
+<tr>	<td>inputs.ivpsol.senssolver	<td>sensitivity algorithm	</tr>
+<tr><th colspan = "2">inputs.model</th></tr>
+<tr>	<td>inputs.model.eqns	<td>char array containing the model eqns #Sim	</tr>
+<tr>	<td>inputs.model.input_model_type	<td>model description type #Sim	</tr>
+<tr>	<td>inputs.model.n_par	<td>number of parameters	</tr>
+<tr>	<td>inputs.model.n_st	<td>number of states	</tr>
+<tr>	<td>inputs.model.n_stimulus	<td>number of stimuli	</tr>
+<tr>	<td>inputs.model.st_names	<td>custom state names	</tr>
+<tr>	<td>inputs.model.stimulus_names	<td>stimuli names	</tr>
+<tr><th colspan = "2">inputs.nlpsol</th></tr>
+<tr>	<td>inputs.nlpsol.n_reOpts	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.nlpsolver	<td>NLP solver algorithm	</tr>
+<tr>	<td>inputs.nlpsol.reopt	<td>#RED #MISSING	</tr>
+<tr>	<td>inputs.nlpsol.reopt_local_solver	<td>#RED #MISSING	</tr>
+<tr><th colspan = "2">inputs.pathd</th></tr>
+<tr>	<td>inputs.pathd.results_folder	<td>Name of the folder to keep results for a given problem	</tr>
+<tr>	<td>inputs.pathd.short_name	<td>Short name, will be used to generate specific problem folders/files	</tr>
+</table></body>
+</html>

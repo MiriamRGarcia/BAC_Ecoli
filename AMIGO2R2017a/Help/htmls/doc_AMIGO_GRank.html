@@ -1,0 +1,413 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>AMIGO_GRank -- Global ranking of model unknowns</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-09-28"><meta name="DC.source" content="doc_AMIGO_GRank.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #007946; 
+  font-size: large;
+}
+
+h1b {
+  color: #255DA5; 
+  font-size: large;
+}
+
+li {
+  color: #255DA5; /* bullet color */
+}
+li {
+  color: #255DA5; /* bullet color */
+}
+li span {
+  color: black; /* text color */
+}
+
+h2 {
+  color: #255DA5;
+  font-size: medium;
+}
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 820px;
+  /* Hack for IE6 */
+  width: auto !important; width: 820px;
+  text-align: justify;
+}
+
+pre.codeinput {
+  background: #E9F4F6;
+  padding: 10px;
+  width: 820px;
+  text-align: justify;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+   width: 820px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>AMIGO_GRank -- Global ranking of model unknowns</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">AMIGO_GRank</a></li><li><a href="#4">See also</a></li><li><a href="#6">Example</a></li></ul></div><h2>AMIGO_GRank<a name="1"></a></h2><div><ul><li>Computes local sensitivities for a sample of values of model unknowns. Sampling is performed by using the Latin Hipercube sampling method within the bounds defined for the unknowns Computes overall (for all experimental schemes and observables) ranking of global unknowns (experiment independent parameters and initial conditions</li></ul></div><div><ul><li>Plots/Reports overall global ranking of global unknowns</li><li>Plots bars and 2D figures of global sensitivities for all observables and all experiments for global and local unknowns</li></ul></div><p>options:</p><div><ul><li>'run_identifier' to keep different folders for different runs, this avoids overwriting</li></ul></div><h2>See also<a name="4"></a></h2><div><ul><li><a href="doc_AMIGO_ivpsol.html">IVP solvers</a></li><li><a href="doc_AMIGO_pecost.html">Cost function</a></li><li><a href="doc_AMIGO_Input.html">how to input a problem in AMIGO</a></li></ul></div><h2>Example<a name="6"></a></h2><p>
+<a name="example"> </a>
+</p><pre class="codeinput">clear;
+<span class="comment">%============================</span>
+<span class="comment">% RESULTS PATHS RELATED DATA</span>
+<span class="comment">%============================</span>
+inputs.pathd.results_folder=<span class="string">'test'</span>;
+inputs.pathd.short_name=<span class="string">'test10'</span>;
+inputs.pathd.runident=<span class="string">''</span>;
+
+
+<span class="comment">%============================</span>
+<span class="comment">% MODEL RELATED DATA</span>
+<span class="comment">%============================</span>
+inputs.model.input_model_type=<span class="string">'charmodelC'</span>;
+inputs.model.n_st=5;
+inputs.model.n_par=5;
+inputs.model.n_stimulus=0;
+inputs.model.names_type=<span class="string">'custom'</span>;
+inputs.model.st_names=char(<span class="string">'y1'</span>,<span class="string">'y2'</span>,<span class="string">'y3'</span>,<span class="string">'y4'</span>,<span class="string">'y5'</span>);
+inputs.model.par_names=char(<span class="string">'p1'</span>,<span class="string">'p2'</span>,<span class="string">'p3'</span>,<span class="string">'p4'</span>,<span class="string">'p5'</span>);
+inputs.model.stimulus_names=[];
+inputs.model.eqns=<span class="keyword">...</span>
+    char(<span class="string">'dy1=-(p1+p2)*y1'</span>,<span class="keyword">...</span>
+    <span class="string">'dy2= p1*y1'</span>,<span class="keyword">...</span>
+    <span class="string">'dy3= p2*y1-(p3+p4)*y3+p5*y5'</span>,<span class="keyword">...</span>
+    <span class="string">'dy4= p3*y3'</span>,<span class="keyword">...</span>
+    <span class="string">'dy5= p4*y3-p5*y5'</span>);
+
+p1=5.93e-5;
+p2=2.96e-5;
+p3=2.05e-5;
+p4=27.5e-5;
+p5=4e-5;
+
+inputs.model.par=[p1 p2 p3 p4 p5];
+
+
+<span class="comment">%==================================</span>
+<span class="comment">% EXPERIMENTAL SCHEME RELATED DATA</span>
+<span class="comment">%==================================</span>
+
+inputs.exps.n_exp=1;
+inputs.exps.n_obs{1}=5;
+inputs.exps.obs_names{1}=char(<span class="string">'obsy1'</span>,<span class="string">'obsy2'</span>,<span class="string">'obsy3'</span>,<span class="string">'obsy4'</span>,<span class="string">'obsy5'</span>);
+inputs.exps.obs{1}=char(<span class="string">'obsy1=y1'</span>,<span class="string">'obsy2=y2'</span>,<span class="string">'obsy3=y3'</span>,<span class="string">'obsy4=y4'</span>,<span class="string">'obsy5=y5'</span>);
+inputs.exps.exp_y0{1}=[100 0 0 0 0];
+inputs.exps.t_f{1}=36420;
+inputs.exps.n_s{1}=9;
+inputs.exps.t_s{1}=[0 1230 3060 4920 7800 10680 15030 22620 36420];
+</pre><p>In order to use AMIGO_GRank you need to specify upper and lower bounds on the parameters.</p><pre class="codeinput">inputs.PEsol.id_global_theta=<span class="string">'all'</span>;
+inputs.PEsol.global_theta_max=[1 1 1 1 1];
+inputs.PEsol.global_theta_min= [0 0 0 0 0];
+</pre><p>You need to choose a suitable number of optimizations for the global sensitivity analysis. Default is 10000.</p><pre class="codeinput">inputs.rank.gr_samples=1000;
+</pre><p>More information regarding the inputs used in this example can be found <a href="grankex1.html">here</a>.</p><pre class="codeinput">AMIGO_Prep(inputs);
+AMIGO_GRank(inputs);
+</pre><pre class="codeoutput">
+
+*********************************** 
+*     AMIGO, Copyright @CSIC      * 
+*       AMIGO2_R1 [July 2013]        *
+*********************************** 
+
+*Date: 28-Sep-2015
+
+------&gt;Pre processing....this may take a few seconds.
+
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+------&gt; Generating C code ...
+
+
+------&gt; Mexing files....
+
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c: In function 'simulate_amigo_model': 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c:330:6: warning: passing argument 1 of 'mexPrintf' from incompatible pointer type [enabled by default] 
+      mexPrintf(stderr,"\nSolver failed at flag = CVode(cvode_mem, tout, y, &amp;t, CV_TSTOP_RETURN);. . .\n"); 
+      ^ 
+In file included from D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\include\include_amigo/simulate_amigo_model.h:4:0, 
+                 from D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_amigo\simulate_amigo_model.c:1: 
+C:\MATLAB\R2011B~1\extern\include/mex.h:209:14: note: expected 'const char *' but argument is of type 'struct FILE *' 
+ EXTERN_C int mexPrintf( 
+              ^ 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_interface\interface_with_matlab.c: In function 'mexFunction': 
+D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Kernel\IVP_solvers\cvodes\C_src4Amigo\src\src_interface\interface_with_matlab.c:200:17: warning: assignment from incompatible pointer type [enabled by default] 
+    stats_struct = mxGetPr(plhs[5]); 
+                 ^ 
+
+
+------&gt;Files generated....
+
+
+*********************************** 
+*     AMIGO, Copyright @CSIC      * 
+*       AMIGO2_R1 [July 2013]        *
+*********************************** 
+
+*Date: 28-Sep-2015
+
+------&gt;Checking inputs....
+------&gt; WARNING message
+
+		 AMIGO_check_model: You did not specify inputs.model.exe_type, standard will be assumed
+
+
+
+------&gt;Global Ranking of parameters, this may take some time
+
+ 1 
+
+-------------------------------
+Local sensitivity problem related active settings
+-------------------------------
+
+senssolver: cvodes
+ivp_RelTol: 1e-005
+ivp_AbsTol: 1e-007
+sens_RelTol: ~1e-005
+sensmex: cvodesg_test10
+MaxStepSize: Inf
+MaxNumberOfSteps: 100000
+sens_RelTol: ~1e-005
+ 2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25 
+ 26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50 
+ 51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75 
+ 76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100 
+ 101  102  103  104  105  106  107  108  109  110  111  112  113  114  115  116  117  118  119  120  121  122  123  124  125 
+ 126  127  128  129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144  145  146  147  148  149  150 
+ 151  152  153  154  155  156  157  158  159  160  161  162  163  164  165  166  167  168  169  170  171  172  173  174  175 
+ 176  177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192  193  194  195  196  197  198  199  200 
+ 201  202  203  204  205  206  207  208  209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224  225 
+ 226  227  228  229  230  231  232  233  234  235  236  237  238  239  240  241  242  243  244  245  246  247  248  249  250 
+ 251  252  253  254  255  256  257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272  273  274  275 
+ 276  277  278  279  280  281  282  283  284  285  286  287  288  289  290  291  292  293  294  295  296  297  298  299  300 
+ 301  302  303  304  305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320  321  322  323  324  325 
+ 326  327  328  329  330  331  332  333  334  335  336  337  338  339  340  341  342  343  344  345  346  347  348  349  350 
+ 351  352  353  354  355  356  357  358  359  360  361  362  363  364  365  366  367  368  369  370  371  372  373  374  375 
+ 376  377  378  379  380  381  382  383  384  385  386  387  388  389  390  391  392  393  394  395  396  397  398  399  400 
+ 401  402  403  404  405  406  407  408  409  410  411  412  413  414  415  416  417  418  419  420  421  422  423  424  425 
+ 426  427  428  429  430  431  432  433  434  435  436  437  438  439  440  441  442  443  444  445  446  447  448  449  450 
+ 451  452  453  454  455  456  457  458  459  460  461  462  463  464  465  466  467  468  469  470  471  472  473  474  475 
+ 476  477  478  479  480  481  482  483  484  485  486  487  488  489  490  491  492  493  494  495  496  497  498  499  500 
+ 501  502  503  504  505  506  507  508  509  510  511  512  513  514  515  516  517  518  519  520  521  522  523  524  525 
+ 526  527  528  529  530  531  532  533  534  535  536  537  538  539  540  541  542  543  544  545  546  547  548  549  550 
+ 551  552  553  554  555  556  557  558  559  560  561  562  563  564  565  566  567  568  569  570  571  572  573  574  575 
+ 576  577  578  579  580  581  582  583  584  585  586  587  588  589  590  591  592  593  594  595  596  597  598  599  600 
+ 601  602  603  604  605  606  607  608  609  610  611  612  613  614  615  616  617  618  619  620  621  622  623  624  625 
+ 626  627  628  629  630  631  632  633  634  635  636  637  638  639  640  641  642  643  644  645  646  647  648  649  650 
+ 651  652  653  654  655  656  657  658  659  660  661  662  663  664  665  666  667  668  669  670  671  672  673  674  675 
+ 676  677  678  679  680  681  682  683  684  685  686  687  688  689  690  691  692  693  694  695  696  697  698  699  700 
+ 701  702  703  704  705  706  707  708  709  710  711  712  713  714  715  716  717  718  719  720  721  722  723  724  725 
+ 726  727  728  729  730  731  732  733  734  735  736  737  738  739  740  741  742  743  744  745  746  747  748  749  750 
+ 751  752  753  754  755  756  757  758  759  760  761  762  763  764  765  766  767  768  769  770  771  772  773  774  775 
+ 776  777  778  779  780  781  782  783  784  785  786  787  788  789  790  791  792  793  794  795  796  797  798  799  800 
+ 801  802  803  804  805  806  807  808  809  810  811  812  813  814  815  816  817  818  819  820  821  822  823  824  825 
+ 826  827  828  829  830  831  832  833  834  835  836  837  838  839  840  841  842  843  844  845  846  847  848  849  850 
+ 851  852  853  854  855  856  857  858  859  860  861  862  863  864  865  866  867  868  869  870  871  872  873  874  875 
+ 876  877  878  879  880  881  882  883  884  885  886  887  888  889  890  891  892  893  894  895  896  897  898  899  900 
+ 901  902  903  904  905  906  907  908  909  910  911  912  913  914  915  916  917  918  919  920  921  922  923  924  925 
+ 926  927  928  929  930  931  932  933  934  935  936  937  938  939  940  941  942  943  944  945  946  947  948  949  950 
+ 951  952  953  954  955  956  957  958  959  960  961  962  963  964  965  966  967  968  969  970  971  972  973  974  975 
+ 976  977  978  979  980  981  982  983  984  985  986  987  988  989  990  991  992  993  994  995  996  997  998  999  1000 
+
+
+&gt;&gt;&gt; Global Ranking calculated over 1001 different vectors of parameters
+
+
+
+------&gt;Plotting results....
+
+
+
+------&gt; GLOBAL RANKING
+
+
+
+------&gt;ABSOLUTE Ranking of GLOBAL unknown PARAMETERS:
+
+			d_msqr		 d_mabs		 d_mean			d_max		  d_min
+____________________________________________________________________________________________
+	p1  6.0193e+000  2.4095e+001 -5.9994e-006   6.7766e+001  -6.7759e+001 
+	p2  5.8680e+000  2.3487e+001 -2.2259e-005   6.6054e+001  -6.6056e+001 
+	p5  3.2176e+000  9.7153e+000 -2.1361e-006   7.1478e+001  -7.1436e+001 
+	p3  1.4186e+000  3.7194e+000 -6.1315e-006   3.9646e+001  -2.5520e+001 
+	p4  1.0310e-002  2.3215e-002 -9.7995e-006   2.7529e-001  -2.8645e-001 
+____________________________________________________________________________________________
+
+
+------&gt;RELATIVE Ranking of GLOBAL unknown PARAMETERS:
+
+			rd_msqr		rd_mabs		rd_mean			rd_max		rd_min
+____________________________________________________________________________________________
+	p3  2.2501e+000  8.3333e+000 -6.3442e+000   4.3884e+001  -5.1428e+001 
+	p5  2.1370e+000  7.8836e+000 -5.8410e+000   7.6200e+001  -9.6167e+001 
+	p1  1.6504e+000  5.1168e+000 -1.4386e+000   7.5117e+001  -7.2158e+001 
+	p2  1.4643e+000  4.5586e+000 -1.4084e+000   7.0534e+001  -6.9450e+001 
+	p4  1.3039e+000  4.7760e+000  3.7058e+000   1.6167e+001  -2.9525e+000 
+____________________________________________________________________________________________
+&gt; 100.00% of successful simulationn
+&gt; 100.00% of successful sensitivity calculations
+
+
+------&gt;Results (report and struct_results.mat) and plots were kept in the directory:
+
+		Results\test\GRank_test10_run1
+		Click &lt;a href="matlab: cd('D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\test\GRank_test10_run1')"&gt;here&lt;/a&gt; to go to the results folder or &lt;a href="matlab: load('D:\AMIGO2_REPO_2014\AMIGO_R2012_cvodes\Results\test\GRank_test10_run1\strreport_test10_run1.mat')"&gt;here&lt;/a&gt; to load the results.
+</pre><img vspace="5" hspace="5" src="doc_AMIGO_GRank_01.png" alt=""> <img vspace="5" hspace="5" src="doc_AMIGO_GRank_02.png" alt=""> <img vspace="5" hspace="5" src="doc_AMIGO_GRank_03.png" alt=""> <img vspace="5" hspace="5" src="doc_AMIGO_GRank_04.png" alt=""> <pre class="codeinput">AMIGO_htmldoc_inputs(inputs,fullfile(pwd,<span class="string">'html'</span>,<span class="string">'grankex1.html'</span>));
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% AMIGO_GRank REPLACE_WITH_DASH_DASH Global ranking of model unknowns
+
+    %% AMIGO_GRank
+    % * Computes local sensitivities for a sample of values of model 
+    % unknowns. Sampling is performed by using the Latin Hipercube 
+    % sampling method within the bounds defined for the unknowns   
+    % Computes overall (for all experimental schemes and           
+    % observables) ranking of global unknowns (experiment          
+    % independent parameters and initial conditions                
+    %
+    % * Plots/Reports overall global ranking of global unknowns      
+    % * Plots bars and 2D figures of global sensitivities for all    
+    % observables and all experiments for global and local unknowns
+                                                                          
+                                                                        
+    %%
+    % options: 
+       
+    %%
+    % * 'run_identifier' to keep different folders for different runs, this avoids overwriting             
+
+
+
+%% See also
+
+    %%
+    % * <doc_AMIGO_ivpsol.html IVP solvers>
+    % * <doc_AMIGO_pecost.html Cost function>
+    % * <doc_AMIGO_Input.html how to input a problem in AMIGO>
+
+%% Example
+%
+% <html>
+% <a name="example"> </a>
+% </html>
+%     
+clear;    
+%============================
+% RESULTS PATHS RELATED DATA
+%============================
+inputs.pathd.results_folder='test';
+inputs.pathd.short_name='test10';                       
+inputs.pathd.runident='';  
+
+
+%============================
+% MODEL RELATED DATA
+%============================
+inputs.model.input_model_type='charmodelC';          
+inputs.model.n_st=5;                                
+inputs.model.n_par=5;                               
+inputs.model.n_stimulus=0;                          
+inputs.model.names_type='custom';                    
+inputs.model.st_names=char('y1','y2','y3','y4','y5');
+inputs.model.par_names=char('p1','p2','p3','p4','p5');
+inputs.model.stimulus_names=[];          
+inputs.model.eqns=...                    
+    char('dy1=-(p1+p2)*y1',...
+    'dy2= p1*y1',...
+    'dy3= p2*y1-(p3+p4)*y3+p5*y5',...
+    'dy4= p3*y3',...
+    'dy5= p4*y3-p5*y5');
+
+p1=5.93e-5;
+p2=2.96e-5;
+p3=2.05e-5;
+p4=27.5e-5;
+p5=4e-5;
+
+inputs.model.par=[p1 p2 p3 p4 p5];      
+
+
+%==================================
+% EXPERIMENTAL SCHEME RELATED DATA
+%==================================
+
+inputs.exps.n_exp=1;                            
+inputs.exps.n_obs{1}=5;                         
+inputs.exps.obs_names{1}=char('obsy1','obsy2','obsy3','obsy4','obsy5');
+inputs.exps.obs{1}=char('obsy1=y1','obsy2=y2','obsy3=y3','obsy4=y4','obsy5=y5');
+inputs.exps.exp_y0{1}=[100 0 0 0 0];       
+inputs.exps.t_f{1}=36420;                           
+inputs.exps.n_s{1}=9;                               
+inputs.exps.t_s{1}=[0 1230 3060 4920 7800 10680 15030 22620 36420]; 
+
+
+
+    %% 
+    % In order to use AMIGO_GRank you need to specify upper and lower
+    % bounds on the parameters.
+    
+inputs.PEsol.id_global_theta='all';                     
+inputs.PEsol.global_theta_max=[1 1 1 1 1];   
+inputs.PEsol.global_theta_min= [0 0 0 0 0];  
+
+    %% 
+    % You need to choose a suitable number of optimizations for the global
+    % sensitivity analysis. Default is 10000.
+
+inputs.rank.gr_samples=1000;
+
+    %%
+    % More information regarding the inputs used in this example can be
+    % found <grankex1.html here>. 
+
+AMIGO_Prep(inputs);   
+AMIGO_GRank(inputs);  
+
+%%
+%
+
+
+AMIGO_htmldoc_inputs(inputs,fullfile(pwd,'html','grankex1.html'));
+
+
+##### SOURCE END #####
+--></body></html>

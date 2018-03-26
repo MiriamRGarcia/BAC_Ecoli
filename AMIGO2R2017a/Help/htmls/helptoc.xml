@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<toc version="2.0">
+<!-- First tocitem specifies top level in Help browser Contents pane -->
+<!-- This can be a roadmap page, as shown below, or a content page -->
+    <tocitem target="AMIGO_productOverview.html">AMIGO Toolbox
+        <!-- Nest tocitems to create hierarchical entries in  Contents-->
+        <!-- To include icons, use the following syntax for tocitems: -->
+        <!-- <tocitem target="foo.html" image="HelpIcon.NAME"> -->
+        <!-- Title-of-Section </tocitem> -->
+        <!-- where NAME is one of the following (use capital letters): -->
+        <!-- FUNCTION, USER_GUIDE, EXAMPLES, BLOCK, GETTING_STARTED, -->
+        <!-- DEMOS, RELEASE_NOTES --> 
+        <!-- Icon images used for these entries are also stored in -->
+        <!-- matlabroot/toolbox/matlab/icons -->
+        <!-- A Getting Started Guide usually comes first -->
+		<tocitem image = "$toolbox/matlab/icons/help_gs.png" target="AMIGO_gettingStarted.html"> Getting Started
+				
+		</tocitem>
+		
+		
+		<tocitem image = "$toolbox/matlab/icons/book_mat.png" target="doc_AMIGO_Prep.html"> AMIGO_Prep - Pre-processing
+    	 </tocitem>
+			
+         <tocitem target="doc_AMIGO_ShowNetwork.html">AMIGO_ShowNetwork - Model structure with Cytoscape </tocitem>
+          
+         <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_SModel.html"> AMIGO_SModel - Model simulation </tocitem>
+        
+	     <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_SObs.html">AMIGO_SObs - Simulation of observables </tocitem>
+
+         <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_SData.html">AMIGO_SData
+				<tocitem target="doc_AMIGO_SData.html"> Data vs model preditions </tocitem>
+				<tocitem target="doc_AMIGO_pseudoData.html"> Pseudo-dada generation  </tocitem>
+        	</tocitem>
+	  		
+		<tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_LRank.html">AMIGO_LRank - Local sensitivity analysis and rank of parameters	</tocitem>
+		
+        <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_GRank.html">AMIGO_GRank - Global sensitivity analysis and rank of parameters </tocitem>
+	
+        <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_PE.html">AMIGO_PE - Parameter estimation </tocitem>
+        
+        <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_REG_PE.html">AMIGO_REG_PE - Parameter estimation with Regularization </tocitem>
+        
+         <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_PEPostAnalisys.html">AMIGO_PEPostAnalysis - Analysis of best fit </tocitem>
+        
+            
+        <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_RIdent.html">AMIGO_RIdent - Robust identifiability analysis </tocitem>
+				
+		<tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_ContourP.html">AMIGO_ContourP - Cosf function isolines</tocitem>
+        
+        <tocitem image = "$toolbox/matlab/icons/help_ug.png" target="doc_AMIGO_DO.html">AMIGO_DO - Dynamic optimization
+                <tocitem target="doc_AMIGO_DO_Reopt.html"> Dynamic optimization with reoptimization </tocitem>
+				<tocitem target="doc_AMIGO_DO_const.html"> Dynamic optimization with constraints  </tocitem>
+                <tocitem target="doc_AMIGO_MultiObj_DO.html"> Multi-objective dynamic optimization   </tocitem>
+                <tocitem target="doc_AMIGO_MultiWSM_DO.html"> Weighted sum method for multi-objective dynamic optimization</tocitem>
+    
+        </tocitem>
+        
+		<tocitem  image = "$toolbox/matlab/icons/help_ex.png" target="amigo_cheatSheet_developers.html">Cheat sheet </tocitem>
+		<tocitem  image = "$toolbox/matlab/icons/help_rn.png" target="doc_AMIGO_releaseNotes.html">Release Notes </tocitem>
+		<tocitem  target="static/AMIGO_contact.html">Contact </tocitem>
+	</tocitem>
+        
+</toc>
