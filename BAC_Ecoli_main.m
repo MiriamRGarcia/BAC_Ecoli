@@ -7,7 +7,8 @@
 %  ========================================================================
 clear all
 
-run ./AMIGO2R2017a/AMIGO_Startup.m
+amigo_path=input('write amigo path (example: foo/AMIGO2R2017a ) :','s')
+run([amigo_path,'./AMIGO_Startup.m']);
 
 % AMIGO prep has to be run only the first time or every time the equations of the model are changed
 pick_experiments=1;

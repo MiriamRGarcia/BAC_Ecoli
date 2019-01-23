@@ -1,5 +1,0 @@
-%% fullMex
-
-%% See also
-
-%% Example
