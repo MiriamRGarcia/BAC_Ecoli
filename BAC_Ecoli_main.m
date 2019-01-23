@@ -28,7 +28,7 @@ BAC_Ecoli_model;
 AMIGO_SData(inputs)
 disp('--------------------------------------------------------------------')
 disp('This is the simulation of the model with final set of parameters')
-disp('To continue press Enter')
+disp('Press Enter to continue')
 disp('--------------------------------------------------------------------')
 
 pause
@@ -51,7 +51,7 @@ pick_experiments=[1:6];BAC_Ecoli_model;
 AMIGO_PE(inputs)
 disp('--------------------------------------------------------------------')
 disp('This is the optimization of the parameters')
-disp('To continue press Enter')
+disp('Press Enter to continue')
 disp('--------------------------------------------------------------------')
 
 pause
